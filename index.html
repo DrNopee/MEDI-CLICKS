@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1E3A8A">
+    <meta name="theme-color" content="#1E3260">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medi Clicks - Dashboard Dinámico</title>
@@ -11,26 +11,35 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <!-- Favicon Links (Asegúrate que estos archivos existan en la carpeta /images/) -->
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="apple-touch-icon" href="images/icon-512x512.png">
+   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
-
-    <script>
+    <script>    
         tailwind.config = {
-            darkMode: 'class', // Habilitar dark mode basado en clase
+            darkMode: 'class', 
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'], },
                     colors: {
                         'brand-bg-main-start': '#EFF6FF', 'brand-bg-main-end': '#DBEAFE', 'brand-sidebar': '#1E3A8A',
-                        'brand-sidebar-hover': '#1D4ED8', 'brand-primary': '#2563EB', 'brand-primary-hover': '#1D4ED8',
-                        'brand-primary-active': '#1E40AF', 'brand-text-primary': '#1E293B', 'brand-text-secondary': '#475569',
-                        'brand-text-sidebar': '#E0F2FE', 'brand-border-light': '#BFDBFE', 'brand-border-focus': '#60A5FA',
+                        'brand-sidebar-hover': '#1D4ED8', 
+                        // Nuevos colores primarios
+                        'brand-primary': '#1E3260', 
+                        'brand-primary-hover': '#162649',
+                        'brand-primary-active': '#0F1A33',
+                        'brand-text-primary': '#1E293B', 'brand-text-secondary': '#475569',
+                        'brand-text-sidebar': '#E0F2FE', 'brand-border-light': '#BFDBFE', 
+                        'brand-border-focus': '#1E3260', // Usar nuevo primario para foco
                         'brand-white': '#FFFFFF', 'brand-light-bg': '#F9FAFB',
                         'success': '#10B981', 'info': '#3B82F6', 'warning': '#F59E0B', 'danger': '#EF4444',
-                        primary: { light: '#60A5FA', DEFAULT: '#2563EB', dark: '#1D4ED8', darker: '#1E3A8A' },
+                        primary: { 
+                            light: '#5170A7', // Versión más clara del nuevo primario para dark mode
+                            DEFAULT: '#1E3260', 
+                            dark: '#162649', 
+                            darker: '#0F1A33' 
+                        },
                         secondary: '#EFF6FF', lightgray: '#F3F4F6'
                     }
                 }
@@ -40,9 +49,13 @@
     <style>
         :root {
             --color-brand-bg-main-start: #EFF6FF; --color-brand-bg-main-end: #DBEAFE; --color-brand-sidebar: #1E3A8A;
-            --color-brand-sidebar-hover: #1D4ED8; --color-brand-primary: #2563EB; --color-brand-primary-hover: #1D4ED8;
-            --color-brand-primary-active: #1E40AF; --color-brand-text-primary: #1E293B; --color-brand-text-secondary: #475569;
-            --color-brand-text-sidebar: #E0F2FE; --color-brand-border-light: #BFDBFE; --color-brand-border-focus: #60A5FA;
+            --color-brand-sidebar-hover: #1D4ED8; 
+            --color-brand-primary: #1E3260;
+            --color-brand-primary-hover: #162649; 
+            --color-brand-primary-active: #0F1A33; 
+            --color-brand-text-primary: #1E293B; --color-brand-text-secondary: #475569;
+            --color-brand-text-sidebar: #E0F2FE; --color-brand-border-light: #BFDBFE; 
+            --color-brand-border-focus: #1E3260; 
             --color-brand-white: #FFFFFF; --color-brand-light-bg: #F9FAFB;
             --shadow-soft: 0px 4px 10px rgba(0,0,0,0.08); --shadow-medium: 0px 6px 15px rgba(30,58,138,0.12); --shadow-strong: 0px 8px 25px rgba(30,58,138,0.15);
             --border-radius-small: 0.375rem; --border-radius-medium: 0.5rem; --border-radius-large: 0.75rem; --border-radius-xl: 1rem;
@@ -52,14 +65,15 @@
             --color-brand-bg-main-end: #111827;   
             --color-brand-sidebar: #1E3A8A;       
             --color-brand-sidebar-hover: #1D4ED8; 
-            --color-brand-primary: #3B82F6;       
-            --color-brand-primary-hover: #60A5FA;
-            --color-brand-primary-active: #2563EB;
+            /* Colores primarios para modo oscuro, más brillantes para contraste */
+            --color-brand-primary: #5170A7;       
+            --color-brand-primary-hover: #6A89C1;
+            --color-brand-primary-active: #3C5A8E;
             --color-brand-text-primary: #F3F4F6;  
             --color-brand-text-secondary: #9CA3AF;
             --color-brand-text-sidebar: #E0F2FE;  
             --color-brand-border-light: #374151;  
-            --color-brand-border-focus: #3B82F6;  
+            --color-brand-border-focus: #5170A7; 
             --color-brand-white: #111827;         
             --color-brand-light-bg: #1F2937;      
 
@@ -81,12 +95,15 @@
             transition: transform 0.3s ease-in-out;
         }
         aside.fixed { z-index: 40; }
-        @media (min-width: 1024px) { /* lg breakpoint */
+        @media (min-width: 1024px) { 
             aside { position: sticky; top: 0; transform: translateX(0) !important; }
         }
 
         main { flex-grow: 1; height: 100vh; overflow-y: auto; background-image: linear-gradient(145deg, var(--color-brand-bg-main-start), var(--color-brand-bg-main-end)); transition: margin-left 0.3s ease-in-out; }
-        aside .border-b { border-color: rgba(255,255,255,0.1); } aside .logo-text { color: var(--color-brand-white); } aside .text-sm { color: var(--color-brand-text-sidebar); opacity: 0.8; } /* Renombrado h1 a .logo-text */
+        aside .border-b { border-color: rgba(255,255,255,0.1); } 
+        aside .sidebar-logo-container img { display: block; margin-left: auto; margin-right: auto; } /* Para centrar la imagen si tiene ancho definido */
+        aside .sidebar-logo-container p { color: var(--color-brand-text-sidebar); }
+
         .nav-link { color: var(--color-brand-text-sidebar); border-radius: var(--border-radius-medium); transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease; } .nav-link:hover { background-color: var(--color-brand-sidebar-hover); color: var(--color-brand-white); transform: translateX(2px); } .nav-link.active { background-color: var(--color-brand-primary); color: var(--color-brand-white); font-weight: 600; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); } .nav-link svg { stroke: currentColor; }
         main h2.text-2xl, main h2.text-3xl { color: var(--color-brand-text-primary); font-weight: 600; } main h3 { color: var(--color-brand-text-primary); }
         .content-card-modern, .dashboard-card { background-color: var(--color-brand-white); border-radius: var(--border-radius-large); box-shadow: var(--shadow-soft); transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; } .content-card-modern { padding: 1.5rem; } .dashboard-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-medium); } .dashboard-card h3 { color: var(--color-brand-text-secondary); }
@@ -110,11 +127,11 @@
     </style>
 </head>
 <body class="font-sans">
-    <div id="loadingOverlay" style="display: none;">
-        <img src="images/icon-512x512.png" alt="Cargando Medi Clicks" class="h-20 w-auto mb-4">
-        <div class="spinner"></div>
-        <span id="loadingMessage">Procesando...</span>
-    </div>
+<div id="loadingOverlay" style="display: none;">
+    <img src="images/logo-completo-blanco.png" alt="Cargando Medi Clicks" class="h-auto w-1/2 max-w-[200px] mb-4">
+    <div class="spinner"></div>
+    <span id="loadingMessage">Cargando datos iniciales...</span>
+</div>
 
     <button id="sidebar-toggle" class="lg:hidden fixed top-4 left-4 z-[60] p-2 bg-brand-primary text-white rounded-md shadow-lg">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -122,12 +139,12 @@
 
     <div class="content-wrapper">
         <aside class="w-64 flex flex-col transform -translate-x-full lg:translate-x-0 fixed lg:sticky top-0 h-screen">
-            <div class="p-4 border-b flex flex-col items-center">
-                <img src="images/icon-512x512.png" alt="Medi Clicks Logo" class="h-16 w-auto mb-2 rounded-md">
-                <div class="logo-text text-xl font-bold text-center">Medi Clicks</div> 
-                <p class="text-sm text-center">Panel de Gestión</p>
-            </div>
+            <div class="p-4 border-b flex flex-col items-center sidebar-logo-container">
+    <img src="images/logo-completo-blanco.png" alt="Medi Clicks Logo" class="h-auto w-3/4 max-w-[180px] mb-3">
+    <p class="text-sm text-center opacity-80">Panel de Gestión</p>
+</div>
             <nav class="flex-grow p-4 space-y-2">
+                <!-- Nav Links ... -->
                 <a href="#dashboard" class="nav-link flex items-center px-4 py-2 btn">
                     <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     Dashboard
@@ -171,7 +188,9 @@
         </aside>
 
         <main class="flex-grow p-6 md:p-8 lg:ml-64"> 
-            <section id="dashboard" class="page-section mb-8">
+            <!-- El resto de tus secciones <section> van aquí, sin cambios respecto al código anterior -->
+            <!-- ... (Dashboard, Clientes, Perfil Cliente, Tareas, Publicaciones, Paquetes, Servicios Web, Administración) ... -->
+             <section id="dashboard" class="page-section mb-8">
                 <h2 class="text-2xl font-semibold mb-6">Dashboard General</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="dashboard-card p-6 border-l-4 border-success">
@@ -541,6 +560,7 @@
     </div>
 
     <!-- Modales -->
+    <!-- ... (Todos tus modales van aquí, sin cambios respecto al código anterior) ... -->
     <div id="modalCliente" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 dark:bg-opacity-80 dark:bg-black overflow-y-auto h-full w-full items-center justify-center z-50 p-4">
         <div class="modal-content w-full max-w-2xl mx-auto max-h-[95vh] overflow-y-auto p-6 md:p-8">
             <div class="flex justify-between items-center mb-6">
@@ -667,17 +687,19 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanilla-js-calendar@1.6.1/build/vanilla-js-calendar.min.js"></script>
     <script>
+        // El JavaScript es el mismo que en la respuesta anterior (la que contenía las correcciones para los errores de 'substring' y 'addEventListener')
+        // Asegúrate de que esa versión del script esté aquí.
         document.addEventListener('DOMContentLoaded', async function() {
             // Theme toggle elements
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-            const themeToggleTextEl = document.getElementById('theme-toggle-text'); // Renombrado para evitar conflicto
+            const themeToggleTextEl = document.getElementById('theme-toggle-text'); 
 
             // Sidebar toggle elements
-            const sidebarEl = document.querySelector('aside'); // Renombrado para evitar conflicto
+            const sidebarEl = document.querySelector('aside'); 
             const mainContentForSidebar = document.querySelector('main'); 
-            const sidebarToggleBtnEl = document.getElementById('sidebar-toggle'); // Renombrado
+            const sidebarToggleBtnEl = document.getElementById('sidebar-toggle'); 
 
 
             const navLinks = document.querySelectorAll('.nav-link');
@@ -816,7 +838,7 @@
                     if (typeof calendarInstance.setOptions === 'function') {
                          calendarInstance.setOptions({ settings: { visibility: { theme: isDark ? 'dark' : 'light' } } });
                          calendarInstance.update();
-                    } else if (calendarInstance.destroy) { // Check if destroy exists before calling
+                    } else if (calendarInstance.destroy) { 
                         calendarInstance.destroy(); 
                         inicializarCalendario();
                     }
@@ -894,7 +916,7 @@
                     let targetId = 'dashboard';
                     let clienteId = null;
 
-                    if (hash) { // Solo procesar si hay un hash
+                    if (hash) { 
                         if (hash.startsWith('#perfil-cliente?id=')) {
                             targetId = 'perfil-cliente';
                             clienteId = hash.substring('#perfil-cliente?id='.length);
@@ -1110,7 +1132,7 @@
                 let targetId = 'dashboard'; 
                 let clienteId = null;
 
-                if (hash && hash !== '#') { // Solo procesar si hay un hash y no es solo '#'
+                if (hash && hash !== '#') { 
                     if (hash.startsWith('#perfil-cliente?id=')) {
                         targetId = 'perfil-cliente';
                         clienteId = hash.substring('#perfil-cliente?id='.length);
@@ -1119,7 +1141,6 @@
                     }
                 }
                 
-                // Fallback si el targetId no corresponde a una sección válida (excepto perfil-cliente que se maneja con clienteId)
                 if (targetId !== 'perfil-cliente' && !document.getElementById(targetId)) {
                     targetId = 'dashboard';
                 }
