@@ -1,0 +1,28 @@
+{
+  "name": "Medi Clicks Dashboard",
+  "short_name": "MediClicks",
+  "description": "Panel de gestión para Medi Clicks.",
+  "start_url": ".", // Asumiendo que tu HTML principal será index.html en la raíz
+  "display": "standalone",
+  "background_color": "#EFF6FF",
+  "theme_color": "#1E3A8A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/icon-192x192.png", // Asegúrate que la ruta a tus imágenes sea correcta
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "images/maskable-icon.png", // Asegúrate que esta imagen exista y sea maskable
+      "sizes": "192x192", // Podría ser de 512x512 también si tienes una versión maskable grande
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
