@@ -9,6 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/vanilla-js-calendar@1.6.1/build/vanilla-js-calendar.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <!-- Favicon Links (Asegúrate que estos archivos existan en la carpeta /images/) -->
    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -32,7 +34,11 @@
                         'brand-text-sidebar': '#E0F2FE', 'brand-border-light': '#BFDBFE', 
                         'brand-border-focus': '#1E3260', 
                         'brand-white': '#FFFFFF', 'brand-light-bg': '#F9FAFB',
-                        'success': '#10B981', 'info': '#3B82F6', 'warning': '#F59E0B', 'danger': '#EF4444',
+                        'success': '#10B981', 'info': '#3B82F6', 'warning': '#F59E0B', 
+                        'danger': { 
+                            DEFAULT: '#EF4444',
+                            light: '#F87171' // Para texto en dark mode
+                        },
                         primary: { 
                             light: '#5170A7', 
                             DEFAULT: '#1E3260', 
@@ -112,10 +118,81 @@
         .btn { transition: all 0.2s ease-in-out; border-radius: var(--border-radius-medium); } .btn:hover { transform: translateY(-1px); filter: brightness(1.05); } .btn:active { transform: translateY(0px); filter: brightness(0.95); }
         .btn-primary-modern { background-color: var(--color-brand-primary); color: var(--color-brand-white); font-weight: 500; padding: 0.625rem 1.25rem; border-radius: var(--border-radius-medium); box-shadow: var(--shadow-soft); } .btn-primary-modern:hover { background-color: var(--color-brand-primary-hover); box-shadow: var(--shadow-medium); } .btn-primary-modern:active { background-color: var(--color-brand-primary-active); } .btn-primary-modern svg { fill: currentColor; stroke: currentColor; }
         .btn-secondary-modern { background-color: var(--color-brand-light-bg); color: var(--color-brand-primary); font-weight: 500; padding: 0.625rem 1.25rem; border-radius: var(--border-radius-medium); border: 1px solid var(--color-brand-border-light); box-shadow: var(--shadow-soft); } .btn-secondary-modern:hover { background-color: var(--color-brand-border-light); border-color: var(--color-brand-border-focus); color: var(--color-brand-primary-hover); } .btn-secondary-modern svg { stroke: currentColor; }
-        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="password"], textarea, select { border-radius: var(--border-radius-medium) !important; border: 1px solid var(--color-brand-border-light) !important; padding: 0.625rem 0.875rem !important; color: var(--color-brand-text-primary) !important; background-color: var(--color-brand-white) !important; box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important; transition: border-color 0.2s ease, box-shadow 0.2s ease; } input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border-color: var(--color-brand-border-focus) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-primary) 20%, transparent) !important; outline: none !important; } label { color: var(--color-brand-text-secondary); font-weight: 500; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="password"], textarea, select { border-radius: var(--border-radius-medium) !important; border: 1px solid var(--color-brand-border-light) !important; padding: 0.625rem 0.875rem !important; color: var(--color-brand-text-primary) !important; background-color: var(--color-brand-white) !important; box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important; transition: border-color 0.2s ease, box-shadow 0.2s ease; } 
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border-color: var(--color-brand-border-focus) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-primary) 20%, transparent) !important; outline: none !important; } 
+        label { color: var(--color-brand-text-secondary); font-weight: 500; }
+        
+        html.dark input[type="text"], html.dark input[type="email"], html.dark input[type="tel"], 
+        html.dark input[type="number"], html.dark input[type="date"], html.dark input[type="time"], 
+        html.dark input[type="password"], html.dark textarea, html.dark select {
+            background-color: var(--color-brand-light-bg) !important; 
+            border-color: var(--color-brand-border-light) !important;
+            color: var(--color-brand-text-primary) !important;
+        }
+        html.dark input:focus, html.dark textarea:focus, html.dark select:focus,
+        html.dark input[type="password"]:focus {
+             border-color: var(--color-brand-border-focus) !important; 
+             box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-primary) 40%, transparent) !important;
+        }
+        html.dark label { color: var(--color-brand-text-secondary); }
+
+
         .modal { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; z-index: 50; } .modal.active { display: flex; opacity: 1; } .modal-content { background-color: var(--color-brand-white); border-radius: var(--border-radius-xl); box-shadow: var(--shadow-strong); border: none; transition: transform 0.3s ease-in-out; transform: translateY(-20px); } .modal.active .modal-content { transform: translateY(0); } .modal-content h3.text-2xl { color: var(--color-brand-primary); } .modal-content .service-group { border-top: 1px solid var(--color-brand-border-light); margin-top: 1.5rem; padding-top: 1.5rem; } .modal-content .service-group h4 { color: var(--color-brand-primary); font-weight: 600; }
         .table-container-modern { background-color: var(--color-brand-white); border-radius: var(--border-radius-large); box-shadow: var(--shadow-soft); overflow: hidden; } .table-container-modern table thead { background-color: var(--color-brand-light-bg); } .table-container-modern table th { color: var(--color-brand-text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--color-brand-border-light); padding: 0.75rem 1.5rem; } .table-container-modern table td { color: var(--color-brand-text-primary); border-bottom: 1px solid var(--color-brand-light-bg); padding: 0.75rem 1.5rem; } .table-container-modern table tr:last-child td { border-bottom: none; } .table-container-modern table tr:hover td { background-color: var(--color-brand-bg-main-start); }
-        .table-container-modern .ver-perfil-btn, .table-container-modern .editar-cliente-btn, .table-container-modern .editar-tarea-btn, .table-container-modern .editar-publicacion-btn { color: var(--color-brand-primary); } .table-container-modern .ver-perfil-btn:hover, .table-container-modern .editar-cliente-btn:hover, .table-container-modern .editar-tarea-btn:hover, .table-container-modern .editar-publicacion-btn:hover { color: var(--color-brand-primary-hover); text-decoration: underline; } .table-container-modern .eliminar-cliente-btn, .table-container-modern .eliminar-tarea-btn, .table-container-modern .eliminar-publicacion-btn, .table-container-modern .eliminar-ingreso-btn, .table-container-modern .eliminar-cuentacobrar-btn, .table-container-modern .eliminar-cuentaempresa-btn { color: var(--tw-colors-danger, #EF4444); } .table-container-modern .eliminar-cliente-btn:hover, .table-container-modern .eliminar-tarea-btn:hover, .table-container-modern .eliminar-publicacion-btn:hover, .table-container-modern .eliminar-ingreso-btn:hover, .table-container-modern .eliminar-cuentacobrar-btn:hover, .table-container-modern .eliminar-cuentaempresa-btn:hover { color: var(--tw-colors-red-700, #b91c1c); text-decoration: underline; }
+        
+        html.dark .table-container-modern { background-color: var(--color-brand-light-bg); }
+        html.dark .table-container-modern table thead { background-color: var(--color-brand-bg-main-end); }
+        html.dark .table-container-modern table th { color: var(--color-brand-text-secondary); border-bottom-color: var(--color-brand-border-light); }
+        html.dark .table-container-modern table td { color: var(--color-brand-text-primary); border-bottom-color: var(--color-brand-border-light); }
+        html.dark .table-container-modern table tr:hover td { background-color: var(--color-brand-bg-main-end); }
+
+
+        .table-container-modern .ver-perfil-btn, .table-container-modern .editar-cliente-btn, .table-container-modern .editar-tarea-btn, .table-container-modern .editar-publicacion-btn { color: var(--color-brand-primary); } 
+        .table-container-modern .ver-perfil-btn:hover, .table-container-modern .editar-cliente-btn:hover, .table-container-modern .editar-tarea-btn:hover, .table-container-modern .editar-publicacion-btn:hover { color: var(--color-brand-primary-hover); text-decoration: underline; } 
+        
+        .table-container-modern .eliminar-cliente-btn, .table-container-modern .eliminar-tarea-btn, .table-container-modern .eliminar-publicacion-btn, .table-container-modern .eliminar-ingreso-btn, .table-container-modern .eliminar-cuentacobrar-btn, .table-container-modern .eliminar-cuentaempresa-btn,
+        .btn.eliminar-paquete-btn { 
+            color: var(--tw-colors-danger-DEFAULT, #EF4444); /* tw-colors-danger-DEFAULT es hypothetical, usando color directo */
+        } 
+        .table-container-modern .eliminar-cliente-btn:hover, .table-container-modern .eliminar-tarea-btn:hover, .table-container-modern .eliminar-publicacion-btn:hover, .table-container-modern .eliminar-ingreso-btn:hover, .table-container-modern .eliminar-cuentacobrar-btn:hover, .table-container-modern .eliminar-cuentaempresa-btn:hover,
+        .btn.eliminar-paquete-btn:hover { 
+            color: #B91C1C; /* Tailwind red-700 */
+            text-decoration: underline; 
+        }
+
+        html.dark .table-container-modern .ver-perfil-btn, 
+        html.dark .table-container-modern .editar-cliente-btn, 
+        html.dark .table-container-modern .editar-tarea-btn, 
+        html.dark .table-container-modern .editar-publicacion-btn { 
+            color: var(--color-brand-primary); /* Ya es claro en dark mode */
+        }
+        html.dark .table-container-modern .ver-perfil-btn:hover, 
+        html.dark .table-container-modern .editar-cliente-btn:hover, 
+        html.dark .table-container-modern .editar-tarea-btn:hover, 
+        html.dark .table-container-modern .editar-publicacion-btn:hover { 
+            color: var(--color-brand-primary-hover); 
+        }
+
+        html.dark .table-container-modern .eliminar-cliente-btn, 
+        html.dark .table-container-modern .eliminar-tarea-btn, 
+        html.dark .table-container-modern .eliminar-publicacion-btn, 
+        html.dark .table-container-modern .eliminar-ingreso-btn, 
+        html.dark .table-container-modern .eliminar-cuentacobrar-btn, 
+        html.dark .table-container-modern .eliminar-cuentaempresa-btn,
+        html.dark .btn.eliminar-paquete-btn {
+            color: #F87171; /* Tailwind red-400 (danger.light) */
+        }
+        html.dark .table-container-modern .eliminar-cliente-btn:hover, 
+        html.dark .table-container-modern .eliminar-tarea-btn:hover, 
+        html.dark .table-container-modern .eliminar-publicacion-btn:hover, 
+        html.dark .table-container-modern .eliminar-ingreso-btn:hover, 
+        html.dark .table-container-modern .eliminar-cuentacobrar-btn:hover, 
+        html.dark .table-container-modern .eliminar-cuentaempresa-btn:hover,
+        html.dark .btn.eliminar-paquete-btn:hover {
+            color: #FCA5A5; /* Tailwind red-300 */
+        }
+
+
         .page-section.hidden { display: none !important; }
         #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: color-mix(in srgb, var(--color-brand-sidebar) 80%, black); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; color: white; font-size: 1.2em; } .spinner, .spinner-inline { border: .2em solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spinner-border .75s linear infinite; } .spinner { width: 40px; height: 40px; margin-bottom: 10px; } .spinner-inline { display: inline-block; width: 1em; height: 1em; vertical-align: -0.125em; margin-right: 0.5rem;} @keyframes spinner-border { to { transform: rotate(360deg); } }
         p { line-height: 1.6; }
@@ -123,6 +200,11 @@
         .vanilla-calendar { box-shadow: var(--shadow-soft); border: 1px solid var(--color-brand-border-light); border-radius: var(--border-radius-large); margin-bottom: 1.5rem; background-color: var(--color-brand-white); } .vanilla-calendar .vanilla-calendar-header { background-color: var(--color-brand-light-bg); padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-brand-border-light); } .vanilla-calendar .vanilla-calendar-header *, .vanilla-calendar .vanilla-calendar-week__day { color: var(--color-brand-text-primary); } .vanilla-calendar .vanilla-calendar-week__day { font-weight: 600; } .vanilla-calendar .vanilla-calendar-day__btn_today:not(.vanilla-calendar-day__btn_selected) { background-color: color-mix(in srgb, var(--color-brand-primary) 20%, transparent) !important; color: var(--color-brand-primary) !important; border-radius: 50%; } .vanilla-calendar .vanilla-calendar-day__btn_selected { background-color: var(--color-brand-primary) !important; color: var(--color-brand-white) !important; border-radius: 50%; box-shadow: 0 0 0 2px var(--color-brand-white), 0 0 0 4px var(--color-brand-primary); } .vanilla-calendar .vanilla-calendar-day__btn:hover:not(.vanilla-calendar-day__btn_selected):not(.vanilla-calendar-day__btn_disabled) { background-color: var(--color-brand-border-light) !important; border-radius: 50%; } .vanilla-calendar .vanilla-calendar-day__marker { background-color: var(--color-brand-primary); width: 6px; height: 6px; border-radius: 50%; margin-top: 3px; display: block; }
         html.dark .vanilla-calendar .vanilla-calendar-day__btn_selected { color: #111827 !important; }
         html.dark .vanilla-calendar .vanilla-calendar-day__btn_today:not(.vanilla-calendar-day__btn_selected) { background-color: color-mix(in srgb, var(--color-brand-primary) 40%, transparent) !important; }
+
+        /* Estilos para el botón de eliminar paquete */
+        .btn.eliminar-paquete-btn {
+            /* Clases de Tailwind para el botón eliminar paquete, ya se manejan con dark: en el HTML si es necesario */
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -134,11 +216,11 @@
         <form id="loginForm">
             <div class="mb-4">
                 <label for="username" class="block text-sm font-medium text-brand-text-secondary dark:text-slate-400 text-left mb-1">Usuario</label>
-                <input type="text" id="username" name="username" required class="w-full dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:focus:border-primary-light dark:focus:ring-primary-light/30">
+                <input type="text" id="username" name="username" required class="w-full">
             </div>
             <div class="mb-6">
                 <label for="password" class="block text-sm font-medium text-brand-text-secondary dark:text-slate-400 text-left mb-1">Contraseña</label>
-                <input type="password" id="password" name="password" required class="w-full dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:focus:border-primary-light dark:focus:ring-primary-light/30">
+                <input type="password" id="password" name="password" required class="w-full">
             </div>
             <button type="submit" class="w-full btn btn-primary-modern">Ingresar</button>
         </form>
@@ -270,7 +352,7 @@
                                 </svg>
                                 Ver Calendario Completo
                             </button>
-                            <div class="mt-4 pt-4 border-t border-brand-border-light">
+                            <div class="mt-4 pt-4 border-t border-brand-border-light dark:border-slate-700">
                                 <h4 class="text-sm font-semibold text-brand-text-primary mb-2">Próximas Entregas:</h4>
                                 <ul id="listaProximasTareasDashboard" class="space-y-1 text-xs">
                                     <li class="text-brand-text-secondary italic">No hay tareas próximas.</li>
@@ -367,7 +449,14 @@
                             <div class="profile-card">
                                <h3>Configuración Redes Sociales (General)</h3>
                                <div id="perfilDedicadoConfigRedes">
-                                   <p class="text-xs text-brand-text-secondary">No hay configuración específica.</p>
+                                   <p class="text-xs text-brand-text-secondary dark:text-slate-400">No hay configuración específica.</p>
+                               </div>
+                               <!-- Aquí podrías mostrar un resumen de las redes para las que hay credenciales (solo nombres) -->
+                               <div id="perfilDedicadoCredencialesResumen" class="mt-3 pt-3 border-t border-brand-border-light dark:border-slate-700">
+                                   <h4 class="text-sm font-semibold text-brand-primary dark:text-primary-light mb-1">Credenciales Guardadas para:</h4>
+                                   <ul class="list-disc list-inside text-xs text-brand-text-secondary dark:text-slate-400">
+                                       <!-- Se llenará con JS -->
+                                   </ul>
                                </div>
                            </div>
                            <div class="profile-card">
@@ -492,7 +581,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="content-card-modern md:col-span-2">
                         <div class="flex flex-wrap justify-between items-center mb-4">
-                            <h3 class="text-xl font-semibold text-brand-primary">
+                            <h3 class="text-xl font-semibold text-brand-primary dark:text-primary-light">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
@@ -503,7 +592,7 @@
                                 Registrar Ingreso
                             </button>
                         </div>
-                        <p class="text-brand-text-secondary mb-4">Registro y seguimiento de todos los ingresos de la empresa.</p>
+                        <p class="text-brand-text-secondary dark:text-slate-400 mb-4">Registro y seguimiento de todos los ingresos de la empresa.</p>
                         <div class="mb-4 flex flex-wrap gap-4">
                             <div><label for="filtroIngresosCliente" class="block text-xs font-medium mb-1">Cliente:</label><select id="filtroIngresosCliente" class="mt-1 block w-full md:w-auto text-sm"><option value="">Todos</option></select></div>
                             <div><label for="filtroIngresosMes" class="block text-xs font-medium mb-1">Mes:</label><input type="month" id="filtroIngresosMes" class="mt-1 block w-full md:w-auto text-sm"></div>
@@ -514,11 +603,11 @@
                                 <tbody id="tablaIngresosBody"></tbody>
                             </table>
                         </div>
-                        <div class="mt-4 text-right"><p class="text-lg font-semibold">Total Visualizado: <span id="totalIngresosVisualizados" class="text-success">$0.00</span></p></div>
+                        <div class="mt-4 text-right"><p class="text-lg font-semibold">Total Visualizado: <span id="totalIngresosVisualizados" class="text-success dark:text-green-400">$0.00</span></p></div>
                     </div>
                     <div class="content-card-modern md:col-span-2">
                         <div class="flex flex-wrap justify-between items-center mb-4">
-                            <h3 class="text-xl font-semibold text-brand-primary">
+                            <h3 class="text-xl font-semibold text-brand-primary dark:text-primary-light">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                 </svg>
@@ -529,7 +618,7 @@
                                 Añadir Cuenta
                             </button>
                         </div>
-                        <p class="text-brand-text-secondary mb-4">Gestión de facturas pendientes y seguimiento de cobros a clientes.</p>
+                        <p class="text-brand-text-secondary dark:text-slate-400 mb-4">Gestión de facturas pendientes y seguimiento de cobros a clientes.</p>
                          <div class="mb-4 flex flex-wrap gap-4">
                             <div><label for="filtroCuentasCobrarCliente" class="block text-xs font-medium mb-1">Cliente:</label><select id="filtroCuentasCobrarCliente" class="mt-1 block w-full md:w-auto text-sm"><option value="">Todos</option></select></div>
                             <div><label for="filtroCuentasCobrarEstado" class="block text-xs font-medium mb-1">Estado:</label><select id="filtroCuentasCobrarEstado" class="mt-1 block w-full md:w-auto text-sm"><option value="">Todos</option><option value="Pendiente">Pendiente</option><option value="Pagada Parcialmente">Pagada Parcialmente</option><option value="Pagada">Pagada</option><option value="Vencida">Vencida</option><option value="Cancelada">Cancelada</option></select></div>
@@ -540,11 +629,11 @@
                                 <tbody id="tablaCuentasCobrarBody"></tbody>
                             </table>
                         </div>
-                        <div class="mt-4 text-right"><p class="text-lg font-semibold">Saldo Pendiente Visualizado: <span id="totalSaldoPendienteVisualizado" class="text-danger">$0.00</span></p></div>
+                        <div class="mt-4 text-right"><p class="text-lg font-semibold">Saldo Pendiente Visualizado: <span id="totalSaldoPendienteVisualizado" class="text-danger dark:text-danger-light">$0.00</span></p></div>
                     </div>
                     <div class="content-card-modern md:col-span-2">
                         <div class="flex flex-wrap justify-between items-center mb-4">
-                            <h3 class="text-xl font-semibold text-brand-primary">
+                            <h3 class="text-xl font-semibold text-brand-primary dark:text-primary-light">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11V9c0-1.044.204-2.035.568-2.951M16 11c0 3.517.99 6.799 2.752 9.571m3.44-2.04l-.054-.09A13.916 13.916 0 0116 11V9c0-1.044-.204-2.035-.568-2.951" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -556,8 +645,8 @@
                                 Añadir Cuenta
                             </button>
                         </div>
-                        <p class="text-brand-text-secondary mb-1">Información bancaria, plataformas de pago y otros datos financieros.</p>
-                        <p class="text-xs text-danger mb-4"><strong>Advertencia:</strong> Esta información es sensible. Asegura la privacidad de tu Hoja de Cálculo.</p>
+                        <p class="text-brand-text-secondary dark:text-slate-400 mb-1">Información bancaria, plataformas de pago y otros datos financieros.</p>
+                        <p class="text-xs text-danger dark:text-danger-light mb-4"><strong>Advertencia:</strong> Esta información es sensible. Asegura la privacidad de tu Hoja de Cálculo.</p>
                         <div class="table-container-modern overflow-x-auto max-h-72">
                              <table class="min-w-full">
                                 <thead><tr><th>Entidad</th><th>Tipo</th><th>Identificador</th><th>Titular</th><th>Moneda</th><th>Acciones</th></tr></thead>
@@ -566,13 +655,13 @@
                         </div>
                     </div>
                     <div class="content-card-modern"> 
-                        <h3 class="text-xl font-semibold text-brand-primary mb-4">
+                        <h3 class="text-xl font-semibold text-brand-primary dark:text-primary-light mb-4">
                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             Facturación Electrónica
                         </h3>
-                        <p class="text-brand-text-secondary">Integración con sistema de facturación electrónica (futura implementación).</p>
+                        <p class="text-brand-text-secondary dark:text-slate-400">Integración con sistema de facturación electrónica (futura implementación).</p>
                          <div class="mt-4">
                             <button class="btn btn-primary-modern opacity-50 cursor-not-allowed">Integrar Facturación (Próximamente)</button>
                         </div>
@@ -583,28 +672,118 @@
     </div>
 
     <!-- Modales -->
-    <!-- ... (Todos tus modales van aquí, sin cambios respecto al código anterior) ... -->
     <div id="modalCliente" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 dark:bg-opacity-80 dark:bg-black overflow-y-auto h-full w-full items-center justify-center z-50 p-4">
-        <div class="modal-content w-full max-w-2xl mx-auto max-h-[95vh] overflow-y-auto p-6 md:p-8">
+        <!-- FORMULARIO DE CLIENTE MODIFICADO -->
+        <div class="modal-content w-full max-w-3xl mx-auto max-h-[95vh] overflow-y-auto p-6 md:p-8">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="modalClienteTitle" class="text-2xl font-semibold">Añadir Nuevo Cliente</h3>
                 <button id="btnCerrarModalCliente" class="text-brand-text-secondary hover:text-brand-primary text-4xl leading-none btn">&times;</button>
             </div>
-            <form id="formCliente">
-                <h4 class="text-lg font-semibold mb-3">Información General</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
-                    <div><label for="nombreCliente" class="block text-sm font-medium mb-1">Nombre Completo<span class="text-danger">*</span></label><input type="text" id="nombreCliente" required></div>
-                    <div><label for="clinicaCliente" class="block text-sm font-medium mb-1">Clínica/Consultorio</label><input type="text" id="clinicaCliente"></div>
-                    <div><label for="emailCliente" class="block text-sm font-medium mb-1">Email</label><input type="email" id="emailCliente"></div>
-                    <div><label for="telefonoCliente" class="block text-sm font-medium mb-1">Teléfono</label><input type="tel" id="telefonoCliente"></div>
+            <form id="formCliente" class="space-y-6"> 
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-brand-primary dark:text-primary-light border-b border-brand-border-light dark:border-slate-700 pb-2">Información General</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                        <div>
+                            <label for="nombreCliente" class="block text-sm font-medium mb-1">Nombre Completo<span class="text-danger">*</span></label>
+                            <input type="text" id="nombreCliente" required class="w-full">
+                        </div>
+                        <div>
+                            <label for="clinicaCliente" class="block text-sm font-medium mb-1">Clínica/Consultorio</label>
+                            <input type="text" id="clinicaCliente" class="w-full">
+                        </div>
+                        <div>
+                            <label for="emailCliente" class="block text-sm font-medium mb-1">Email</label>
+                            <input type="email" id="emailCliente" class="w-full">
+                        </div>
+                        <div>
+                            <label for="telefonoCliente" class="block text-sm font-medium mb-1">Teléfono</label>
+                            <input type="tel" id="telefonoCliente" class="w-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="serviciosActivosGeneralCliente" class="block text-sm font-medium mb-1">Servicios Activos (Resumen)</label>
+                            <input type="text" id="serviciosActivosGeneralCliente" placeholder="Ej: Web, Redes, SEO" class="w-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="notasCliente" class="block text-sm font-medium mb-1">Registro/Detalles Generales</label>
+                            <textarea id="notasCliente" rows="3" class="w-full"></textarea>
+                        </div>
+                         <div> 
+                            <label for="pagadoCliente" class="block text-sm font-medium mb-1">Total Pagado ($)</label>
+                            <input type="number" id="pagadoCliente" step="0.01" value="0" class="w-full">
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-4"><label for="serviciosActivosGeneralCliente" class="block text-sm font-medium mb-1">Servicios Activos (Resumen)</label><input type="text" id="serviciosActivosGeneralCliente" placeholder="Ej: Web, Redes, SEO"></div>
-                <div class="mb-4"><label for="pagadoCliente" class="block text-sm font-medium mb-1">Total Pagado ($)</label><input type="number" id="pagadoCliente" step="0.01" value="0"></div>
-                <div class="mb-6"><label for="notasCliente" class="block text-sm font-medium mb-1">Registro/Detalles Generales</label><textarea id="notasCliente" rows="3"></textarea></div>
-                <div class="service-group"><h4 class="text-lg font-semibold mb-3 mt-2">Detalles Servicio Web</h4><div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-4"><div><label for="dominioWebCliente">Dominio Web</label><input type="text" id="dominioWebCliente" placeholder="ej: cliente.com"></div><div><label for="tipoServicioWebCliente">Tipo Servicio Web</label><input type="text" id="tipoServicioWebCliente" placeholder="Ej: Desarrollo, Mantenimiento"></div></div><div class="mb-4"><label for="vencimientoWebCliente">Vencimiento Mant./Dominio</label><input type="date" id="vencimientoWebCliente"></div></div>
-                <div class="service-group"><h4 class="text-lg font-semibold mb-3 mt-2">Detalles Redes Sociales (General)</h4><div class="mb-4"><label for="plataformasRedesCliente">Plataformas (separadas por coma)</label><input type="text" id="plataformasRedesCliente" placeholder="Ej: Instagram, Facebook, X"></div><div class="mb-4"><label for="detallesRedesCliente">Estrategia/Detalles Redes</label><textarea id="detallesRedesCliente" rows="3"></textarea></div></div>
-                <div class="service-group"><h4 class="text-lg font-semibold mb-3 mt-2">Paquetes de Servicios Contratados</h4><div id="serviciosContratadosContainer" class="space-y-4 mb-4"></div><div class="flex items-center gap-x-4"><select id="selectPaqueteServicio" class="block w-full"><option value="">Seleccionar paquete...</option></select><input type="number" id="montoPaqueteServicio" placeholder="Monto" step="0.01" class="block w-1/3"><select id="tipoCobroPaqueteServicio" class="block w-1/3"><option value="mensual">Mensual</option><option value="anual">Anual</option></select><button type="button" id="btnAddServicioContratado" class="btn btn-secondary-modern text-sm">Añadir</button></div></div>
-                <div class="mt-8 flex justify-end space-x-3"><button type="button" id="btnCancelarModalCliente" class="btn btn-secondary-modern">Cancelar</button><button type="submit" class="btn btn-primary-modern">Guardar Cliente</button></div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 mt-4 text-brand-primary dark:text-primary-light border-b border-brand-border-light dark:border-slate-700 pb-2">Detalles Servicio Web</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                        <div>
+                            <label for="dominioWebCliente">Dominio Web</label>
+                            <input type="text" id="dominioWebCliente" placeholder="ej: cliente.com" class="w-full">
+                        </div>
+                        <div>
+                            <label for="tipoServicioWebCliente">Tipo Servicio Web</label>
+                            <input type="text" id="tipoServicioWebCliente" placeholder="Ej: Desarrollo, Mantenimiento" class="w-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="vencimientoWebCliente">Vencimiento Mant./Dominio</label>
+                            <input type="date" id="vencimientoWebCliente" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 mt-4 text-brand-primary dark:text-primary-light border-b border-brand-border-light dark:border-slate-700 pb-2">Configuración General Redes Sociales</h4>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                        <div class="md:col-span-2">
+                            <label for="plataformasRedesCliente">Plataformas (separadas por coma)</label>
+                            <input type="text" id="plataformasRedesCliente" placeholder="Ej: Instagram, Facebook, X" class="w-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="detallesRedesCliente">Estrategia/Detalles Generales Redes</label>
+                            <textarea id="detallesRedesCliente" rows="3" class="w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 mt-4 text-brand-primary dark:text-primary-light border-b border-brand-border-light dark:border-slate-700 pb-2">Credenciales Redes Sociales (Sensible)</h4>
+                    <div id="credencialesRedesContainer" class="space-y-4">
+                        <div class="text-sm text-brand-text-secondary dark:text-slate-400 italic p-3 bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md">
+                            <p><strong>Advertencia:</strong> Esta información es sensible. Asegúrate de que el acceso a tu Google Sheet esté bien protegido.</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-x-2 gap-y-2">
+                        <input type="text" id="nuevaRedSocialNombre" placeholder="Nombre Red (Ej: Instagram)" class="flex-grow input-sm">
+                        <input type="text" id="nuevaRedSocialUsuario" placeholder="Usuario/Email" class="flex-grow input-sm">
+                        <input type="password" id="nuevaRedSocialPassword" placeholder="Contraseña" class="flex-grow input-sm">
+                        <button type="button" id="btnAddCredencialRed" class="btn btn-secondary-modern btn-sm whitespace-nowrap">Añadir Credencial</button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 mt-4 text-brand-primary dark:text-primary-light border-b border-brand-border-light dark:border-slate-700 pb-2">Paquetes de Servicios Contratados</h4>
+                    <div id="serviciosContratadosContainer" class="space-y-4 mb-4">
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-x-4 gap-y-3 p-3 bg-brand-light-bg dark:bg-slate-700/50 rounded-lg">
+                        <select id="selectPaqueteServicio" class="block w-full sm:w-auto flex-grow mb-2 sm:mb-0">
+                            <option value="">Seleccionar paquete...</option>
+                        </select>
+                        <input type="number" id="montoPaqueteServicio" placeholder="Monto" step="0.01" class="block w-full sm:w-1/4">
+                        <select id="tipoCobroPaqueteServicio" class="block w-full sm:w-1/4">
+                            <option value="mensual">Mensual</option>
+                            <option value="anual">Anual</option>
+                            <option value="unico">Pago Único</option>
+                        </select>
+                        <button type="button" id="btnAddServicioContratado" class="btn btn-secondary-modern btn-sm whitespace-nowrap w-full sm:w-auto">Añadir Paquete</button>
+                    </div>
+                </div>
+                
+                <div class="mt-8 flex justify-end space-x-3">
+                    <button type="button" id="btnCancelarModalCliente" class="btn btn-secondary-modern">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-modern">Guardar Cliente</button>
+                </div>
             </form>
         </div>
     </div>
@@ -723,7 +902,7 @@
             const sidebarToggleBtnEl = document.getElementById('sidebar-toggle'); 
 
 
-            const navLinks = document.querySelectorAll('nav .nav-link'); // CORREGIDO: Solo los .nav-link dentro del <nav>
+            const navLinks = document.querySelectorAll('nav .nav-link'); // CORREGIDO
             const pageSections = document.querySelectorAll('.page-section');
             const btnAbrirModalCliente = document.getElementById('btnAbrirModalCliente');
             const modalCliente = document.getElementById('modalCliente');
@@ -737,6 +916,14 @@
             const montoPaqueteServicioInput = document.getElementById('montoPaqueteServicio');
             const tipoCobroPaqueteServicioSelect = document.getElementById('tipoCobroPaqueteServicio');
             const btnAddServicioContratado = document.getElementById('btnAddServicioContratado');
+            
+            // NUEVOS IDs para Credenciales Redes
+            const credencialesRedesContainer = document.getElementById('credencialesRedesContainer');
+            const nuevaRedSocialNombreInput = document.getElementById('nuevaRedSocialNombre');
+            const nuevaRedSocialUsuarioInput = document.getElementById('nuevaRedSocialUsuario');
+            const nuevaRedSocialPasswordInput = document.getElementById('nuevaRedSocialPassword');
+            const btnAddCredencialRed = document.getElementById('btnAddCredencialRed');
+
             const btnAbrirModalTarea = document.getElementById('btnAbrirModalTarea');
             const modalTarea = document.getElementById('modalTarea');
             const modalTareaContent = modalTarea.querySelector('.modal-content');
@@ -769,6 +956,7 @@
             const perfilDedicadoTipoWebEl = document.getElementById('perfilDedicadoTipoWeb');
             const perfilDedicadoVencimientoWebEl = document.getElementById('perfilDedicadoVencimientoWeb');
             const perfilDedicadoConfigRedesDiv = document.getElementById('perfilDedicadoConfigRedes');
+            const perfilDedicadoCredencialesResumenUl = document.querySelector('#perfilDedicadoCredencialesResumen ul'); // Para mostrar resumen
             const perfilDedicadoTareasUl = document.getElementById('perfilDedicadoTareas');
             const btnExportarCSVClientes = document.getElementById('btnExportarCSVClientes');
             const buscadorClientesInput = document.getElementById('buscadorClientes');
@@ -845,539 +1033,441 @@
             const SESSION_TOKEN_KEY = 'mediClicksSessionToken';
 
 
-            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzP_meDnQRD5g_CPp6hI9m9Udzw6f9gwOMoscQiN6fetI_9NUOWTcmQUuo7ZuFrw6YP/exec";
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbywJcsdl7E49GPGyE76LBTklLGbf0ijVmuCpo9Hd99oaW_X_KpOXjVwcEitG6qRQ14l/exec"; // !!! REEMPLAZA ESTO !!!
             const GOOGLE_CALENDAR_ID_FOR_VIEW = "50ba71bc988d110add8e3ca4fea84000056fb4c8f49d02a5f4734d2cf261716f@group.calendar.google.com";
 
-            function applyTheme(isDark) {
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                    if(themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden');
-                    if(themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');
-                    if(themeToggleTextEl) themeToggleTextEl.textContent = 'Modo Claro';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    if(themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');
-                    if(themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden');
-                    if(themeToggleTextEl) themeToggleTextEl.textContent = 'Modo Oscuro';
-                    localStorage.setItem('theme', 'light');
-                }
-                if (calendarInstance) { 
-                    if (typeof calendarInstance.setOptions === 'function') {
-                         calendarInstance.setOptions({ settings: { visibility: { theme: isDark ? 'dark' : 'light' } } });
-                         calendarInstance.update();
-                    } else if (calendarInstance.destroy) { 
-                        calendarInstance.destroy(); 
-                        inicializarCalendario();
-                    }
-                }
-            }
+            // ... (resto de tu JS de inicialización, applyTheme, etc.) ...
+            // ... (incluye las funciones saveDataToSheets y fetchInitialData como las tenías) ...
 
-            let isDarkMode = localStorage.getItem('theme') === 'dark' ||
-                             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            applyTheme(isDarkMode);
-
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    isDarkMode = !isDarkMode;
-                    applyTheme(isDarkMode);
-                });
-            } else {
-                console.warn("Botón de cambio de tema (theme-toggle) no encontrado.");
-            }
-
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (!('theme' in localStorage)) { 
-                    isDarkMode = e.matches;
-                    applyTheme(isDarkMode);
-                }
-            });
-
-            if (sidebarToggleBtnEl && sidebarEl) {
-                sidebarToggleBtnEl.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
-                    sidebarEl.classList.toggle('-translate-x-full');
-                });
-            } else {
-                 console.warn("Botón de toggle de sidebar (sidebar-toggle) o el elemento sidebar no encontrados.");
-            }
-
-            document.addEventListener('click', function(event) {
-                const isMobile = window.innerWidth < 1024; 
-                if (isMobile && sidebarEl && !sidebarEl.classList.contains('-translate-x-full')) {
-                    const isClickInsideSidebar = sidebarEl.contains(event.target);
-                    const isClickOnToggleButton = sidebarToggleBtnEl ? sidebarToggleBtnEl.contains(event.target) : false;
-
-                    if (!isClickInsideSidebar && !isClickOnToggleButton) {
-                        sidebarEl.classList.add('-translate-x-full');
-                    }
-                }
-            });
-
-
-            function showToast(message, type = "info", duration = 3000) { let backgroundColor; switch (type) { case "success": backgroundColor = "linear-gradient(to right, #00b09b, #96c93d)"; break; case "error": backgroundColor = "linear-gradient(to right, #ff5f6d, #ffc371)"; break; case "warning": backgroundColor = "linear-gradient(to right, #f7971e, #ffd200)"; break; case "info": default: backgroundColor = "linear-gradient(to right, #2563EB, #60A5FA)"; break; } Toastify({ text: message, duration: duration, close: true, gravity: "top", position: "right", stopOnFocus: true, style: { background: backgroundColor, borderRadius: "var(--border-radius-medium)" } }).showToast(); }
-
+            // VARIABLES GLOBALES (ya existentes, añadir la nueva)
             let clientes_data = []; let tareas_data = []; let publicaciones_data = []; let paquetes_servicios_data = []; let ingresos_data = []; let cuentas_cobrar_data = []; let cuentas_empresa_data = [];
-            let editandoClienteIndex = null; let tempServiciosContratados = []; let editandoTareaIndex = null; let editandoPublicacionId = null; let editandoCuentaCobrarId = null; let editandoCuentaEmpresaId = null;
-            let clienteSeleccionadoPerfilDedicadoId = null; let vistaAnterior = '#dashboard';
+            let editandoClienteIndex = null; 
+            let tempServiciosContratados = []; 
+            let tempCredencialesRedes = []; // NUEVO ARRAY PARA CREDENCIALES
+            let editandoTareaIndex = null; 
+            let editandoPublicacionId = null; 
+            let editandoPaqueteId = null; // NUEVO para editar paquetes
+            let editandoCuentaCobrarId = null; 
+            let editandoCuentaEmpresaId = null;
+            let clienteSeleccionadoPerfilDedicadoId = null; 
+            let vistaAnterior = '#dashboard';
             let currentPagePublicaciones = 1; const itemsPerPagePublicaciones = 7;
 
+            // PEGA AQUÍ LAS FUNCIONES:
+            // - applyTheme
+            // - showToast
+            // - saveDataToSheets
+            // - fetchInitialData
+            // - Todas las funciones guardarXEnSheets y eliminarXDeSheets
+            // - formatLocalDate
+            // - showLoadingIndicator
+            // - updateDashboardCounters, renderizarListaPerfilesDashboard, etc. (componentes del dashboard)
+            // - inicializarCalendario, actualizarCalendario
+            // - showSection
+            // - handleVerPerfilDedicado, mostrarPerfilDedicado
+            // - Todas las funciones renderizarX, poblarSelectorX, abrirModalX, cerrarModalX, formX.addEventListener, handleEditarX, handleEliminarX
+            //   (para clientes, tareas, publicaciones, paquetes, ingresos, cuentas por cobrar, cuentas empresa)
+            // - mostrarModalConfirmacion, cerrarModalConfirmacion, y sus listeners
+            // - btnVerCalendarioCompleto listener
+            // - buscadorClientesInput listener
+            // - exportToCSV
+            // - navLinks.forEach y window.addEventListener('hashchange')
+            // - listeners para btnAbrirModalCliente, etc. (si no están ya dentro de las funciones de arriba)
+            // - FUNCIONES DE LOGIN/LOGOUT (showLoginScreen, showAppScreen, clearSessionAndShowLogin, checkLoginState, listeners de loginForm y btnLogout)
 
-            async function saveDataToSheets(action, payload) {
-                showLoadingIndicator(true, "Procesando..."); // Cambiado el mensaje
-                const token = localStorage.getItem(SESSION_TOKEN_KEY);
-                if (!token && action !== 'loginUser' && action !== 'logoutUser') { 
-                    showToast("Sesión no válida. Por favor, inicie sesión.", "error");
-                    showLoginScreen(); 
-                    showLoadingIndicator(false);
-                    return { success: false, error: "No token" };
+
+            // --------- INICIO SECCIÓN MODIFICADA/NUEVA PARA CLIENTES Y PAQUETES ---------
+            function renderizarCredencialesRedesEnModal(credenciales) {
+                if (!credencialesRedesContainer) return;
+                const advertenciaDiv = credencialesRedesContainer.querySelector('.italic.p-3'); // Más específico
+                credencialesRedesContainer.innerHTML = ''; 
+                if (advertenciaDiv) credencialesRedesContainer.appendChild(advertenciaDiv); 
+
+                if (!credenciales || !Array.isArray(credenciales) || credenciales.length === 0) {
+                    const p = document.createElement('p');
+                    p.className = 'text-sm text-brand-text-secondary dark:text-slate-400 pl-3'; // Añadido padding
+                    p.textContent = 'No hay credenciales añadidas.';
+                    credencialesRedesContainer.appendChild(p);
+                    return;
                 }
+                credenciales.forEach((cred, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center p-3 bg-brand-light-bg dark:bg-slate-700 rounded-md shadow-sm';
+                    div.innerHTML = `
+                        <div>
+                            <p class="font-medium text-sm text-brand-primary dark:text-primary-light">${cred.redSocial}</p>
+                            <p class="text-xs text-brand-text-secondary dark:text-slate-400">Usuario: ${cred.usuario}</p>
+                            <p class="text-xs text-brand-text-secondary dark:text-slate-400">Contraseña: ****** </p> 
+                        </div>
+                        <button type="button" data-index="${index}" class="text-danger dark:text-danger-light hover:text-red-700 dark:hover:text-red-300 font-semibold text-sm btnRemoveCredencialRed">&times; Quitar</button>
+                    `;
+                    credencialesRedesContainer.appendChild(div);
+                });
 
-                try {
-                    const bodyPayload = { action: action, payload: payload };
-                    if (action !== 'loginUser') { 
-                        bodyPayload.sessionToken = token;
-                    }
-
-                    const response = await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'cors',
-                        cache: 'no-cache',
-                        body: JSON.stringify(bodyPayload),
-                        redirect: 'follow'
+                document.querySelectorAll('.btnRemoveCredencialRed').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const credIndex = parseInt(e.target.dataset.index);
+                        tempCredencialesRedes.splice(credIndex, 1);
+                        renderizarCredencialesRedesEnModal(tempCredencialesRedes);
                     });
-                    const result = await response.json();
-
-                    if (result.status === "success") {
-                        console.log(`${action} exitoso:`, result.message);
-                        return { success: true, data: result.data || payload, message: result.message };
-                    } else {
-                        if (result.message && (result.message.toLowerCase().includes("unauthorized") || (result.details && result.details.toLowerCase().includes("unauthorized")))) {
-                            showToast("Sesión expirada o no válida. Inicie sesión.", "error", 4000);
-                            clearSessionAndShowLogin(); 
-                        } else {
-                            console.error(`Error ${action}:`, result.message, result.details);
-                            showToast(`Error ${action}: ${result.message}`, "error", 5000);
-                        }
-                        return { success: false, error: result.message, details: result.details };
-                    }
-                } catch (error) {
-                    console.error(`Fetch error ${action}:`, error);
-                    showToast(`Error red ${action}.`, "error", 5000);
-                    return { success: false, error: error.toString() };
-                } finally {
-                    showLoadingIndicator(false);
-                }
+                });
             }
 
+            if (btnAddCredencialRed) {
+                btnAddCredencialRed.addEventListener('click', () => {
+                    const redSocial = nuevaRedSocialNombreInput.value.trim();
+                    const usuario = nuevaRedSocialUsuarioInput.value.trim();
+                    const password = nuevaRedSocialPasswordInput.value; 
 
-            async function fetchInitialData() {
-                showLoadingIndicator(true, "Cargando datos iniciales...");
-                const token = localStorage.getItem(SESSION_TOKEN_KEY);
-                if (!token) {
-                    showToast("Requiere inicio de sesión.", "info");
-                    showLoadingIndicator(false);
-                    showLoginScreen();
-                    return; 
-                }
-
-                try {
-                    const SCRIPT_URL_WITH_TOKEN_BASE = `${SCRIPT_URL}?sessionToken=${encodeURIComponent(token)}`;
-
-                    const fetchData = async (action, targetArrayName) => {
-                        try {
-                            const response = await fetch(`${SCRIPT_URL_WITH_TOKEN_BASE}&action=${action}`);
-                            const result = await response.json();
-                            if (result.status === "success") {
-                                window[targetArrayName] = result.data || []; 
-                            } else {
-                                console.error(`Error ${action}:`, result.message, result.details);
-                                showToast(`Error ${action}: ${result.message || 'Desconocido'}`, "error", 5000);
-                                window[targetArrayName] = [];
-                                if (result.message && (result.message.toLowerCase().includes("unauthorized") || (result.details && result.details.toLowerCase().includes("unauthorized")))) {
-                                    throw new Error("Unauthorized"); 
-                                }
-                            }
-                        } catch (e) {
-                           console.error(`Fetch error en ${action}:`, e);
-                           showToast(`Error de red en ${action}.`, "error", 5000);
-                           window[targetArrayName] = [];
-                           if (e.message === "Unauthorized") throw e; 
-                        }
-                    };
-                    
-                    await Promise.all([
-                        fetchData('getClientes', 'clientes_data'),
-                        fetchData('getTareas', 'tareas_data'),
-                        fetchData('getPublicaciones', 'publicaciones_data'),
-                        fetchData('getPaquetesServicios', 'paquetes_servicios_data'),
-                        fetchData('getIngresos', 'ingresos_data'),
-                        fetchData('getCuentasPorCobrar', 'cuentas_cobrar_data'),
-                        fetchData('getCuentasEmpresa', 'cuentas_empresa_data')
-                    ]);
-
-                } catch (error) {
-                    if (error.message === "Unauthorized") {
-                        clearSessionAndShowLogin();
-                    } else {
-                        console.error("Error crítico fetchInitialData:", error);
-                        showToast("Error crítico carga inicial.", "error", 7000);
-                        ['clientes_data', 'tareas_data', 'publicaciones_data', 'paquetes_servicios_data', 'ingresos_data', 'cuentas_cobrar_data', 'cuentas_empresa_data'].forEach(arrName => window[arrName] = []);
+                    if (!redSocial || !usuario || !password) {
+                        showToast('Todos los campos de credencial son obligatorios.', "warning");
+                        return;
                     }
-                } finally {
-                    showLoadingIndicator(false);
-                    if (localStorage.getItem(SESSION_TOKEN_KEY)) { 
+                    if (tempCredencialesRedes.find(c => c.redSocial.toLowerCase() === redSocial.toLowerCase())) {
+                        showToast(`Ya existen credenciales para ${redSocial}. Puede editarlas o eliminarlas primero.`, "info");
+                        return;
+                    }
+
+                    tempCredencialesRedes.push({ redSocial, usuario, password });
+                    renderizarCredencialesRedesEnModal(tempCredencialesRedes);
+                    nuevaRedSocialNombreInput.value = '';
+                    nuevaRedSocialUsuarioInput.value = '';
+                    nuevaRedSocialPasswordInput.value = '';
+                    nuevaRedSocialNombreInput.focus();
+                });
+            }
+            
+            // Modificar abrirModalCliente
+            function abrirModalCliente(esEdicion = false, index = null) {
+                formCliente.reset();
+                editandoClienteIndex = null;
+                tempServiciosContratados = [];
+                tempCredencialesRedes = []; 
+                poblarSelectPaquetesServicio();
+
+                if (esEdicion && index !== null && clientes_data[index]) {
+                    modalClienteTitle.textContent = 'Editar Cliente';
+                    const c = clientes_data[index];
+                    document.getElementById('nombreCliente').value = c.nombre;
+                    document.getElementById('clinicaCliente').value = c.clinica||'';
+                    document.getElementById('emailCliente').value = c.email||'';
+                    document.getElementById('telefonoCliente').value = c.telefono||'';
+                    document.getElementById('serviciosActivosGeneralCliente').value = c.serviciosActivosGeneral||'';
+                    document.getElementById('pagadoCliente').value = c.pagado||0;
+                    document.getElementById('notasCliente').value = c.notas||'';
+                    document.getElementById('dominioWebCliente').value = c.dominioWeb||'';
+                    document.getElementById('tipoServicioWebCliente').value = c.tipoServicioWeb||'';
+                    document.getElementById('vencimientoWebCliente').value = c.vencimientoWeb||'';
+                    document.getElementById('plataformasRedesCliente').value = c.plataformasRedes||''; 
+                    document.getElementById('detallesRedesCliente').value = c.detallesRedes||''; 
+
+                    tempServiciosContratados = (Array.isArray(c.serviciosContratados) ? JSON.parse(JSON.stringify(c.serviciosContratados)) : []);
+                    tempCredencialesRedes = (Array.isArray(c.credencialesRedes) ? JSON.parse(JSON.stringify(c.credencialesRedes)) : []); 
+                    editandoClienteIndex = index;
+                } else {
+                    modalClienteTitle.textContent = 'Añadir Cliente';
+                    tempServiciosContratados = [];
+                    tempCredencialesRedes = []; 
+                    editandoClienteIndex = null;
+                }
+                renderizarServiciosContratadosEnModal(tempServiciosContratados);
+                renderizarCredencialesRedesEnModal(tempCredencialesRedes); 
+                modalCliente.classList.add('active');
+                void modalCliente.offsetWidth; 
+                modalClienteContent.style.transform = 'translateY(0)';
+                document.getElementById('nombreCliente').focus();
+            }
+
+            // Modificar cerrarModalCliente
+            function cerrarModalCliente() {
+                modalClienteContent.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    modalCliente.classList.remove('active');
+                    formCliente.reset();
+                    editandoClienteIndex = null;
+                    tempServiciosContratados = [];
+                    tempCredencialesRedes = []; 
+                    if(credencialesRedesContainer) { // Limpiar credenciales visualmente
+                         const advertenciaDiv = credencialesRedesContainer.querySelector('.italic.p-3');
+                         credencialesRedesContainer.innerHTML = '';
+                         if(advertenciaDiv) credencialesRedesContainer.appendChild(advertenciaDiv);
+                         const p = document.createElement('p');
+                         p.className = 'text-sm text-brand-text-secondary dark:text-slate-400 pl-3';
+                         p.textContent = 'No hay credenciales añadidas.';
+                         credencialesRedesContainer.appendChild(p);
+                    }
+                    if(serviciosContratadosContainer) serviciosContratadosContainer.innerHTML = '<p class="text-sm text-brand-text-secondary dark:text-slate-400">No hay paquetes.</p>';
+
+
+                }, 300);
+            }
+            
+            // Modificar submit de formCliente
+            formCliente.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitButton = e.submitter;
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`;
+                try {
+                    const idC = (editandoClienteIndex !== null && clientes_data[editandoClienteIndex]) ? clientes_data[editandoClienteIndex].id : 'cliente_' + Date.now();
+                    let dC = {
+                        id: idC,
+                        nombre: document.getElementById('nombreCliente').value.trim(),
+                        clinica: document.getElementById('clinicaCliente').value.trim(),
+                        email: document.getElementById('emailCliente').value.trim(),
+                        telefono: document.getElementById('telefonoCliente').value.trim(),
+                        serviciosActivosGeneral: document.getElementById('serviciosActivosGeneralCliente').value.trim(),
+                        pagado: parseFloat(document.getElementById('pagadoCliente').value) || 0,
+                        notas: document.getElementById('notasCliente').value.trim(),
+                        dominioWeb: document.getElementById('dominioWebCliente').value.trim(),
+                        tipoServicioWeb: document.getElementById('tipoServicioWebCliente').value.trim(),
+                        vencimientoWeb: document.getElementById('vencimientoWebCliente').value,
+                        plataformasRedes: document.getElementById('plataformasRedesCliente').value.trim(),
+                        detallesRedes: document.getElementById('detallesRedesCliente').value.trim(),
+                        serviciosContratados: [...tempServiciosContratados],
+                        credencialesRedes: [...tempCredencialesRedes] 
+                    };
+                    dC.configuracionRedes = (editandoClienteIndex !== null && clientes_data[editandoClienteIndex] && clientes_data[editandoClienteIndex].configuracionRedes) ? clientes_data[editandoClienteIndex].configuracionRedes : {};
+                    if (dC.nombre === "") {
+                        showToast("Nombre cliente obligatorio.", "warning");
+                        document.getElementById('nombreCliente').focus();
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                        return;
+                    }
+                    const guardadoOK = await guardarClienteEnSheets(dC);
+                    if (guardadoOK) {
+                        showToast(editandoClienteIndex !== null ? "Cliente actualizado" : "Cliente añadido", "success");
+                        renderizarClientesResumen();
+                        cerrarModalCliente();
                         poblarSelectorClientesTarea();
                         poblarSelectoresClientePublicaciones();
-                        poblarSelectPaquetesServicio();
                         poblarSelectorClienteIngresos();
                         poblarSelectorClienteCuentasCobrar();
-
-                        const hash = window.location.hash;
-                        let targetId = 'dashboard'; // CORREGIDO: Default a dashboard
-                        let clienteId = null;
-
-                        if (hash && hash !== '#') { 
-                            if (hash.startsWith('#perfil-cliente?id=')) {
-                                targetId = 'perfil-cliente';
-                                clienteId = hash.substring('#perfil-cliente?id='.length);
-                                vistaAnterior = '#clientes'; 
-                            } else { 
-                                const potentialTargetId = hash.substring(1);
-                                if (document.getElementById(potentialTargetId)) { // Verificar si la sección existe
-                                    targetId = potentialTargetId;
-                                }
-                                // Si no es perfil cliente ni una sección válida, se mantendrá 'dashboard'
-                            }
-                        }
-                        showSection(targetId, clienteId); 
-                    }
-                }
-            }
-
-
-            async function guardarClienteEnSheets(clienteData) { const esNuevo = !clientes_data.some(c => c.id === clienteData.id); const result = await saveDataToSheets("saveCliente", clienteData); if (result.success) { const updatedCliente = result.data; let nombreClienteAnterior = null; if (esNuevo) clientes_data.push(updatedCliente); else { const index = clientes_data.findIndex(c => c.id === updatedCliente.id); if (index !== -1) {nombreClienteAnterior = clientes_data[index].nombre; clientes_data[index] = updatedCliente;} else clientes_data.push(updatedCliente); } if (!esNuevo && nombreClienteAnterior !== updatedCliente.nombre) { publicaciones_data.forEach(pub => { if (pub.clienteId === updatedCliente.id) pub.clienteNombre = updatedCliente.nombre; }); ingresos_data.forEach(ing => { if (ing.clienteId === updatedCliente.id) ing.clienteNombre = updatedCliente.nombre; }); cuentas_cobrar_data.forEach(cc => { if(cc.clienteId === updatedCliente.id) cc.clienteNombre = updatedCliente.nombre;}); if (document.getElementById('publicaciones') && document.getElementById('publicaciones').offsetParent !== null) aplicarFiltrosPublicaciones(); if (document.getElementById('administracion') && document.getElementById('administracion').offsetParent !== null) {aplicarFiltrosIngresos(); aplicarFiltrosCuentasCobrar();}} poblarSelectoresClientePublicaciones(); poblarSelectorClienteIngresos(); poblarSelectorClienteCuentasCobrar(); actualizarComponentesDashboard(); } return result.success; }
-            async function eliminarClienteDeSheets(clienteId) { const result = await saveDataToSheets("deleteCliente", { id: clienteId }); if (result.success) { clientes_data = clientes_data.filter(c => c.id !== clienteId); let pubMod = false; publicaciones_data.forEach(pub => { if(String(pub.clienteId) === String(clienteId)) { pub.clienteNombre = "Cliente Eliminado"; pub.clienteId = ""; pubMod = true;}}); if(pubMod && document.getElementById('publicaciones') && document.getElementById('publicaciones').offsetParent !== null) aplicarFiltrosPublicaciones(); let ingMod = false; ingresos_data.forEach(ing => {if(String(ing.clienteId) === String(clienteId)) { ing.clienteNombre = "Cliente Eliminado"; ing.clienteId = ""; ingMod = true;}}); if(ingMod && document.getElementById('administracion') && document.getElementById('administracion').offsetParent !== null) aplicarFiltrosIngresos(); let ccMod = false; cuentas_cobrar_data.forEach(cc => {if(String(cc.clienteId) === String(clienteId)) { cc.clienteNombre = "Cliente Eliminado"; cc.clienteId = ""; ccMod = true;}}); if(ccMod && document.getElementById('administracion') && document.getElementById('administracion').offsetParent !== null) aplicarFiltrosCuentasCobrar(); poblarSelectoresClientePublicaciones(); poblarSelectorClienteIngresos(); poblarSelectorClienteCuentasCobrar(); actualizarComponentesDashboard(); detallePerfilClientePreviewEl.classList.add('hidden'); detallePerfilClientePreviewEl.innerHTML = ''; poblarSelectorClientesTarea(); if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === clienteId) window.location.hash = '#dashboard'; } return result.success; }
-            async function guardarTareaEnSheets(tareaData) { return await saveDataToSheets("saveTarea", tareaData); }
-            async function eliminarTareaDeSheets(tareaId) { return await saveDataToSheets("deleteTarea", { id: tareaId });}
-            async function guardarPublicacionEnSheets(publicacionData) { const esNuevo = !publicacionData.id || !publicaciones_data.some(p => p.id === publicacionData.id); const result = await saveDataToSheets("savePublicacion", publicacionData); if (result.success) { const updatedPublicacion = result.data; if (esNuevo) publicaciones_data.push(updatedPublicacion); else { const index = publicaciones_data.findIndex(p => p.id === updatedPublicacion.id); if (index !== -1) publicaciones_data[index] = updatedPublicacion; else publicaciones_data.push(updatedPublicacion); } } return result.success; }
-            async function eliminarPublicacionDeSheets(publicacionId) { const result = await saveDataToSheets("deletePublicacion", { id: publicacionId }); if (result.success) publicaciones_data = publicaciones_data.filter(p => p.id !== publicacionId); return result.success; }
-            async function guardarPaqueteServicioEnSheets(paqueteData) { const result = await saveDataToSheets("savePaqueteServicio", paqueteData); if (result.success) { paquetes_servicios_data.push(result.data); } return result.success; }
-            async function guardarIngresoEnSheets(ingresoData) { const result = await saveDataToSheets("saveIngreso", ingresoData); if (result.success) { ingresos_data.push(result.data); } return result.success; }
-            async function eliminarIngresoDeSheets(ingresoId) { const result = await saveDataToSheets("deleteIngreso", { id: ingresoId }); if (result.success) { ingresos_data = ingresos_data.filter(i => i.id !== ingresoId); } return result.success;}
-            async function guardarCuentaPorCobrarEnSheets(cuentaData) { const result = await saveDataToSheets("saveCuentaPorCobrar", cuentaData); if (result.success) { const esNueva = !cuentas_cobrar_data.some(cc => cc.id === result.data.id); if (esNueva) cuentas_cobrar_data.push(result.data); else { const index = cuentas_cobrar_data.findIndex(cc => cc.id === result.data.id); if (index !== -1) cuentas_cobrar_data[index] = result.data; else cuentas_cobrar_data.push(result.data); } } return result.success; }
-            async function eliminarCuentaPorCobrarDeSheets(cuentaId) { const result = await saveDataToSheets("deleteCuentaPorCobrar", { id: cuentaId }); if (result.success) { cuentas_cobrar_data = cuentas_cobrar_data.filter(cc => cc.id !== cuentaId); } return result.success; }
-            async function guardarCuentaEmpresaEnSheets(cuentaData) { const result = await saveDataToSheets("saveCuentaEmpresa", cuentaData); if (result.success) { const esNueva = !cuentas_empresa_data.some(ce => ce.id === result.data.id); if (esNueva) cuentas_empresa_data.push(result.data); else { const index = cuentas_empresa_data.findIndex(ce => ce.id === result.data.id); if (index !== -1) cuentas_empresa_data[index] = result.data; else cuentas_empresa_data.push(result.data); }} return result.success;}
-            async function eliminarCuentaEmpresaDeSheets(cuentaId) { const result = await saveDataToSheets("deleteCuentaEmpresa", { id: cuentaId }); if (result.success) { cuentas_empresa_data = cuentas_empresa_data.filter(ce => ce.id !== cuentaId); } return result.success; }
-
-
-            function formatLocalDate(dateString) { if (!dateString) return '-'; let date; if (String(dateString).includes('T')) date = new Date(dateString); else { const parts = String(dateString).split('-'); if (parts.length === 3) date = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2])); else return '-'; } if (isNaN(date.getTime())) return '-'; return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }); }
-            function showLoadingIndicator(show, message = "Procesando...") { const overlay = document.getElementById('loadingOverlay'); const msgElement = document.getElementById('loadingMessage'); if (overlay && msgElement) { if (show) { msgElement.textContent = message; overlay.style.display = 'flex'; } else overlay.style.display = 'none'; } }
-
-            function updateDashboardCounters() { if (!totalClientesActivosEl) return; totalClientesActivosEl.textContent = clientes_data.length; const hoy = new Date(); hoy.setUTCHours(0,0,0,0); const clientesARevisarCount = clientes_data.filter(c => { if (!c.vencimientoWeb) return false; let v; if(String(c.vencimientoWeb).includes('T')) v=new Date(c.vencimientoWeb); else if (String(c.vencimientoWeb).includes('-')){ const p=String(c.vencimientoWeb).split('-'); v=new Date(Date.UTC(p[0],p[1]-1,p[2]));} else return false; if(isNaN(v.getTime()))return false; v.setUTCHours(0,0,0,0); const dT=v-hoy; const dD=Math.ceil(dT/(1000*60*60*24)); return dD<=30 && dD>=0; }).length; totalClientesRevisarEl.textContent = clientesARevisarCount; const clientesConWeb = clientes_data.filter(c => c.dominioWeb && String(c.dominioWeb).trim() !== '').length; totalServiciosWebEl.textContent = clientesConWeb; const tareasPendientesCount = tareas_data.filter(t => t.estado === 'Pendiente' || t.estado === 'En Progreso').length; totalTareasPendientesEl.textContent = tareasPendientesCount; }
-            function renderizarListaPerfilesDashboard() { if (!listaPerfilesClientesEl) return; listaPerfilesClientesEl.innerHTML = ''; detallePerfilClientePreviewEl.classList.add('hidden'); detallePerfilClientePreviewEl.innerHTML = ''; if (clientes_data.length === 0) { listaPerfilesClientesEl.innerHTML = '<p class="text-brand-text-secondary dark:text-slate-400 col-span-full text-center py-4">No hay clientes.</p>'; return; } clientes_data.slice(0, 6).forEach((c) => { const btn = document.createElement('button'); btn.className = 'bg-brand-white dark:bg-slate-700 p-4 rounded-lg shadow hover:shadow-md text-left focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-primary-light btn content-card-modern'; btn.dataset.clienteId = c.id; btn.innerHTML = `<h4 class="font-semibold text-brand-primary dark:text-primary-light">${c.nombre}</h4><p class="text-sm text-brand-text-secondary dark:text-slate-400">${c.clinica || 'Sin clínica'}</p>`; btn.addEventListener('click', mostrarDetallePerfilPreview); listaPerfilesClientesEl.appendChild(btn); }); }
-            function mostrarDetallePerfilPreview(e) { const cId = e.currentTarget.dataset.clienteId; const c = clientes_data.find(cl => cl.id === cId); if (!c) return; let sH = ''; if (c.serviciosContratados && Array.isArray(c.serviciosContratados) && c.serviciosContratados.length > 0) { sH = c.serviciosContratados.slice(0,2).map(s => `<p class="text-xs text-brand-text-secondary dark:text-slate-400 truncate"> - ${s.nombreServicio} (${s.tipoCobro})</p>`).join(''); if(c.serviciosContratados.length > 2) sH += '<p class="text-xs text-gray-400 dark:text-slate-500">...</p>';} else sH = '<p class="text-xs text-brand-text-secondary dark:text-slate-400">Sin paquetes.</p>'; detallePerfilClientePreviewEl.innerHTML = `<button id="btnCerrarDetallePerfilPreview" class="float-right text-brand-text-secondary dark:text-slate-400 hover:text-danger text-2xl leading-none btn mb-2">&times;</button><h3 class="text-lg font-bold text-brand-primary dark:text-primary-light mb-3">${c.nombre}</h3><div class="space-y-1 text-sm mb-4"><p><strong>Clínica:</strong> ${c.clinica||'-'}</p><p><strong>Email:</strong> ${c.email||'-'}</p><p><strong>Teléfono:</strong> ${c.telefono||'-'}</p><div class="mt-2"><p class="font-medium text-brand-text-primary dark:text-slate-200">Servicios Contratados:</p>${sH}</div></div><button data-cliente-id="${c.id}" class="w-full btn btn-primary-modern ver-perfil-completo-btn">Ver Perfil Completo</button>`; detallePerfilClientePreviewEl.classList.remove('hidden'); document.getElementById('btnCerrarDetallePerfilPreview').addEventListener('click', () => { detallePerfilClientePreviewEl.classList.add('hidden'); detallePerfilClientePreviewEl.innerHTML = ''; }); detallePerfilClientePreviewEl.querySelector('.ver-perfil-completo-btn').addEventListener('click', handleVerPerfilDedicado); }
-            function renderizarTareasUrgentesDashboard() { if (!listaTareasUrgentesDashboardEl) return; listaTareasUrgentesDashboardEl.innerHTML = ''; const hoy = new Date(); const manana = new Date(); hoy.setUTCHours(0,0,0,0); manana.setUTCDate(hoy.getUTCDate() + 1); manana.setUTCHours(0,0,0,0); const tareasUrgentes = tareas_data.filter(t => { if (!t.fechaEntrega || String(t.fechaEntrega).trim()==="" || (t.estado && t.estado.toLowerCase()==='completada')) return false; let fechaT; if(String(t.fechaEntrega).includes('T')) fechaT = new Date(t.fechaEntrega); else { const p=String(t.fechaEntrega).split('-'); if(p.length===3) fechaT = new Date(Date.UTC(p[0],p[1]-1,p[2])); else return false;} if(isNaN(fechaT.getTime())) return false; fechaT.setUTCHours(0,0,0,0); return fechaT.getTime()===hoy.getTime() || fechaT.getTime()===manana.getTime(); }).sort((a,b)=>{ let dA,dB; const pA=String(a.fechaEntrega).split('-'); dA=new Date(Date.UTC(pA[0],pA[1]-1,pA[2])); const pB=String(b.fechaEntrega).split('-'); dB=new Date(Date.UTC(pB[0],pB[1]-1,pB[2])); if(dA < dB) return -1; if(dA > dB) return 1; return a.nombre.localeCompare(b.nombre);}); if(tareasUrgentes.length===0){listaTareasUrgentesDashboardEl.innerHTML='<li class="text-brand-text-secondary dark:text-slate-400 italic">No hay tareas urgentes.</li>'; return;} tareasUrgentes.forEach(t=>{const li=document.createElement('li');li.className='p-3 bg-brand-light-bg dark:bg-slate-700 rounded-md shadow-sm flex justify-between items-center';let fE='';let fTD;const p=String(t.fechaEntrega).split('-');fTD=new Date(Date.UTC(p[0],p[1]-1,p[2]));fTD.setUTCHours(0,0,0,0);if(fTD.getTime()===hoy.getTime())fE='<span class="text-xs font-semibold px-2 py-1 bg-danger text-white rounded-full">HOY</span>';else if(fTD.getTime()===manana.getTime())fE='<span class="text-xs font-semibold px-2 py-1 bg-warning text-brand-text-primary dark:text-yellow-800 dark:bg-yellow-300 rounded-full">MAÑANA</span>';const cA=t.clienteId&&clientes_data.find(c=>c.id===t.clienteId);const nC=cA?cA.nombre:'General';li.innerHTML=`<div><span class="font-medium text-brand-text-primary dark:text-slate-200">${t.nombre}</span><span class="block text-xs text-brand-text-secondary dark:text-slate-400">Cliente: ${nC} - Estado: ${t.estado}</span></div>${fE}`;listaTareasUrgentesDashboardEl.appendChild(li);});}
-            function renderizarServiciosPorVencerDashboard() { if (!listaServiciosPorVencerDashboardEl) return; listaServiciosPorVencerDashboardEl.innerHTML = ''; const hoy = new Date(); hoy.setUTCHours(0,0,0,0); const servPorVencer = clientes_data.filter(c => { if (!c.vencimientoWeb || String(c.vencimientoWeb).trim()==="") return false; let v; if(String(c.vencimientoWeb).includes('T'))v=new Date(c.vencimientoWeb); else if(String(c.vencimientoWeb).includes('-')){const p=String(c.vencimientoWeb).split('-');v=new Date(Date.UTC(p[0],p[1]-1,p[2]));} else return false; if(isNaN(v.getTime()))return false;v.setUTCHours(0,0,0,0);const dT=v.getTime()-hoy.getTime();const dD=Math.ceil(dT/(1000*60*60*24));return dD<=30&&dD>=0;}).sort((a,b)=>{let dA,dB;const pA=String(a.vencimientoWeb).split('-');dA=new Date(Date.UTC(pA[0],pA[1]-1,pA[2]));const pB=String(b.vencimientoWeb).split('-');dB=new Date(Date.UTC(pB[0],pB[1]-1,pB[2]));return dA-dB;}); if(servPorVencer.length===0){listaServiciosPorVencerDashboardEl.innerHTML='<li class="text-brand-text-secondary dark:text-slate-400 italic">No hay servicios web próximos a vencer.</li>';return;} servPorVencer.slice(0,5).forEach(c=>{const li=document.createElement('li');li.className='p-3 bg-brand-light-bg dark:bg-slate-700 rounded-md shadow-sm';let fVD;const p=String(c.vencimientoWeb).split('-');fVD=new Date(Date.UTC(p[0],p[1]-1,p[2]));const dT=fVD.getTime()-hoy.getTime();const dD=Math.ceil(dT/(1000*60*60*24));let cU="text-success dark:text-green-400";if(dD<=7)cU="text-danger dark:text-red-400";else if(dD<=15)cU="text-warning dark:text-yellow-400";li.innerHTML=`<span class="font-medium text-brand-text-primary dark:text-slate-200">${c.nombre}</span><span class="block text-xs text-brand-text-secondary dark:text-slate-400">Dominio: ${c.dominioWeb||'N/A'}</span><span class="block text-xs ${cU} font-semibold">Vence en ${dD} día(s) (${formatLocalDate(c.vencimientoWeb)})</span>`;listaServiciosPorVencerDashboardEl.appendChild(li);});}
-            function renderizarProximasTareasDashboard() { if (!listaProximasTareasDashboardEl) return; listaProximasTareasDashboardEl.innerHTML = ''; const hoy = new Date(); hoy.setUTCHours(0, 0, 0, 0); const proximasTareas = tareas_data.filter(t => { if (!t.fechaEntrega || String(t.fechaEntrega).trim() === "" || (t.estado && t.estado.toLowerCase() === 'completada')) return false; let fechaT; if (String(t.fechaEntrega).includes('T')) fechaT = new Date(t.fechaEntrega); else { const parts = String(t.fechaEntrega).split('-'); if (parts.length === 3) fechaT = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2])); else return false; } if (isNaN(fechaT.getTime())) return false; fechaT.setUTCHours(0,0,0,0); return fechaT.getTime() >= hoy.getTime(); }).sort((a, b) => { let dA, dB; const pA=String(a.fechaEntrega).split('-'); dA=new Date(Date.UTC(pA[0],pA[1]-1,pA[2])); const pB=String(b.fechaEntrega).split('-'); dB=new Date(Date.UTC(pB[0],pB[1]-1,pB[2])); if(dA < dB) return -1; if(dA > dB) return 1; return a.nombre.localeCompare(b.nombre); }).slice(0, 3); if (proximasTareas.length === 0) { listaProximasTareasDashboardEl.innerHTML = '<li class="text-brand-text-secondary dark:text-slate-400 italic">No hay tareas próximas.</li>'; return; } proximasTareas.forEach(t => { const li = document.createElement('li'); li.className = 'text-brand-text-secondary dark:text-slate-400 hover:text-brand-primary dark:hover:text-primary-light'; const cA=t.clienteId&&clientes_data.find(c => c.id === t.clienteId); const nC=cA?cA.nombre:'General'; li.innerHTML = `<span class="font-medium">${t.nombre}</span> - ${nC} (${formatLocalDate(t.fechaEntrega)})`; listaProximasTareasDashboardEl.appendChild(li); }); }
-            function actualizarComponentesDashboard() { if (document.getElementById('dashboard') && document.getElementById('dashboard').offsetParent !== null) { updateDashboardCounters(); renderizarListaPerfilesDashboard(); renderizarTareasUrgentesDashboard(); renderizarServiciosPorVencerDashboard(); renderizarProximasTareasDashboard(); actualizarCalendario(); }}
-
-            function inicializarCalendario() { if (calendarInstance && typeof calendarInstance.destroy === 'function') { calendarInstance.destroy(); calendarInstance = null; } if (!calendarContainer || calendarContainer.offsetParent === null) return; const hoy = new Date(); const fechasTareasMarcadas = tareas_data.filter(t => t.fechaEntrega && String(t.fechaEntrega).trim() !== "").map(t => ({ date: String(t.fechaEntrega) })); try { if (typeof VanillaCalendar === 'undefined') { console.error("VanillaCalendar no está definido."); return; } calendarInstance = new VanillaCalendar(calendarContainer, { settings: { lang: 'es', iso8601: false, range: { disablePast: false }, selection: { day: 'single' }, visibility: { theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light', weekend: true, today: true }}, date: { today: hoy }, dates: fechasTareasMarcadas, actions: { clickDay(e, dates) { if (dates[0]) { const fechaClic = dates[0]; const tareasDelDia = tareas_data.filter(t => String(t.fechaEntrega) === fechaClic); if (tareasDelDia.length > 0) { const nombresTareas = tareasDelDia.map(t => `- ${t.nombre} (${t.estado})`).join('\n'); showToast(`Tareas para ${formatLocalDate(fechaClic)}:\n${nombresTareas.substring(0,150)}${nombresTareas.length > 150 ? '...' : ''}`, "info", 7000); } } } } }); calendarInstance.init(); } catch (error) { console.error("Error al inicializar el calendario:", error, error.stack); } }
-            function actualizarCalendario() { if (!calendarContainer || calendarContainer.offsetParent === null) return; inicializarCalendario(); }
-
-            function showSection(targetId, clienteId = null) {
-                pageSections.forEach(s => { 
-                    if (s && !s.classList.contains('hidden')) s.classList.add('hidden'); 
-                }); 
-                
-                let sectionToShowId = targetId; 
-                let isPerfilDedicado = false; 
-                const targetEl = document.getElementById(targetId); 
-                
-                if (targetId === 'perfil-cliente' && clienteId) { 
-                    const perfilS = document.getElementById('perfil-cliente-dedicado'); 
-                    if (perfilS) { 
-                        clienteSeleccionadoPerfilDedicadoId = clienteId; 
-                        mostrarPerfilDedicado(clienteId); 
-                        perfilS.classList.remove('hidden'); 
-                        isPerfilDedicado = true; 
-                        sectionToShowId = 'perfil-cliente-dedicado'; 
-                    } else { 
-                        console.error("Sección perfil-cliente-dedicado no encontrada"); 
-                        sectionToShowId = 'dashboard'; 
-                        const dashboardEl = document.getElementById('dashboard');
-                        if(dashboardEl) dashboardEl.classList.remove('hidden');
-                    }
-                } else if (targetEl) { 
-                    targetEl.classList.remove('hidden'); 
-                    sectionToShowId = targetId; 
-                } else { 
-                    const dashboardEl = document.getElementById('dashboard'); // Fallback a dashboard si targetId no existe
-                    if(dashboardEl) dashboardEl.classList.remove('hidden');
-                    sectionToShowId = 'dashboard';
-                } 
-                
-                navLinks.forEach(l => { 
-                    const hrefAttr = l.getAttribute('href');
-                    if (hrefAttr) {
-                        const lT = hrefAttr.substring(1); 
-                        l.classList.toggle('active', lT === sectionToShowId || (isPerfilDedicado && lT === 'clientes')); 
-                    }
-                }); 
-                
-                if (sectionToShowId === 'dashboard') actualizarComponentesDashboard(); 
-                if (sectionToShowId === 'clientes') renderizarClientesResumen(); 
-                if (sectionToShowId === 'tareas') renderizarTareas(); 
-                if (sectionToShowId === 'publicaciones') { poblarSelectoresClientePublicaciones(); aplicarFiltrosPublicaciones(); } 
-                if (sectionToShowId === 'paquetes-servicios') renderizarPaquetesServicios(); 
-                if (sectionToShowId === 'servicios-web') renderizarServiciosWeb(); 
-                if (sectionToShowId === 'administracion') { poblarSelectorClienteIngresos(); aplicarFiltrosIngresos(); poblarSelectorClienteCuentasCobrar(); aplicarFiltrosCuentasCobrar(); renderizarTablaCuentasEmpresa(); }
-            }
-
-
-            function handleVerPerfilDedicado(e) { const clienteId = e.currentTarget.dataset.clienteId; if (clienteId) { vistaAnterior = window.location.hash || '#dashboard'; window.location.hash = `#perfil-cliente?id=${clienteId}`; } }
-            function mostrarPerfilDedicado(clienteId) { const cliente = clientes_data.find(c => c.id === clienteId); if (!cliente) { showToast("Cliente no encontrado.", "error"); window.location.hash = '#clientes'; return; } nombrePerfilDedicadoEl.textContent = cliente.nombre; perfilDedicadoClinicaEl.textContent = cliente.clinica || '-'; perfilDedicadoEmailEl.textContent = cliente.email || '-'; perfilDedicadoTelefonoEl.textContent = cliente.telefono || '-'; perfilDedicadoPagadoEl.textContent = `$${(parseFloat(cliente.pagado) || 0).toFixed(2)}`; perfilDedicadoNotasEl.textContent = cliente.notas || '-'; perfilDedicadoServiciosContratadosUl.innerHTML = ''; if (cliente.serviciosContratados && Array.isArray(cliente.serviciosContratados) && cliente.serviciosContratados.length > 0) { cliente.serviciosContratados.forEach(s => { const li = document.createElement('li'); li.innerHTML = `<strong>${s.nombreServicio}</strong> (Cobro: ${s.tipoCobro} - $${s.monto})`; perfilDedicadoServiciosContratadosUl.appendChild(li); }); } else { perfilDedicadoServiciosContratadosUl.innerHTML = '<li>No hay paquetes.</li>'; } perfilDedicadoDominioWebEl.textContent = cliente.dominioWeb || '-'; perfilDedicadoTipoWebEl.textContent = cliente.tipoServicioWeb || '-'; perfilDedicadoVencimientoWebEl.textContent = formatLocalDate(cliente.vencimientoWeb); perfilDedicadoConfigRedesDiv.innerHTML = ''; let confRedesHTML = '';  if (cliente.plataformasRedes || cliente.detallesRedes) { confRedesHTML += `<div class="sub-section"><h4>Redes Sociales (General)</h4><p><strong>Plataformas:</strong> ${cliente.plataformasRedes || '-'}</p><p><strong>Detalles/Estrategia:</strong><br><span class="whitespace-pre-wrap">${cliente.detallesRedes || '-'}</span></p></div>`; } perfilDedicadoConfigRedesDiv.innerHTML = confRedesHTML || '<p class="text-xs text-brand-text-secondary dark:text-slate-400">Sin info general de redes.</p>'; perfilDedicadoTareasUl.innerHTML = ''; const tareasCliente = tareas_data.filter(t => String(t.clienteId) === String(clienteId)); if (tareasCliente.length > 0) { tareasCliente.forEach(t => { const li = document.createElement('li'); let eCol = 'text-brand-text-secondary dark:text-slate-400'; if(t.estado==='Pendiente')eCol='text-warning dark:text-yellow-400'; else if(t.estado==='En Progreso')eCol='text-info dark:text-blue-400'; else if(t.estado==='Completada')eCol='text-success dark:text-green-400'; li.innerHTML = `<strong>${t.nombre}</strong> - <span class="${eCol} font-semibold">${t.estado}</span> ${t.fechaEntrega ? `(Entrega: ${formatLocalDate(t.fechaEntrega)})` : ''}`; perfilDedicadoTareasUl.appendChild(li); }); } else { perfilDedicadoTareasUl.innerHTML = '<li>Sin tareas.</li>'; } }
-            if(btnVolverDesdePerfil) btnVolverDesdePerfil.addEventListener('click', () => { window.location.hash = vistaAnterior; });
-            if(btnEditarDesdePerfil) btnEditarDesdePerfil.addEventListener('click', () => { if (clienteSeleccionadoPerfilDedicadoId) { const idx = clientes_data.findIndex(c => c.id === clienteSeleccionadoPerfilDedicadoId); if (idx !== -1) abrirModalCliente(true, idx); else showToast("Error: Cliente no encontrado para editar.", "error"); } });
-
-            function renderizarServiciosContratadosEnModal(servicios) { serviciosContratadosContainer.innerHTML = ''; if (!servicios || !Array.isArray(servicios) || servicios.length === 0) { serviciosContratadosContainer.innerHTML = '<p class="text-sm text-brand-text-secondary dark:text-slate-400">No hay paquetes.</p>'; return; } servicios.forEach((s, i) => { const d = document.createElement('div'); d.className = 'flex justify-between items-center p-2 bg-brand-light-bg dark:bg-slate-700 rounded-md'; d.innerHTML = `<div><p class="font-medium text-sm">${s.nombreServicio}</p><p class="text-xs text-brand-text-secondary dark:text-slate-400">Cobro: ${s.tipoCobro} - Monto: $${(parseFloat(s.monto)||0).toFixed(2)}</p></div><button type="button" data-index="${i}" class="text-danger hover:text-red-700 font-semibold text-sm btnRemoveServicioContratado">&times; Quitar</button>`; serviciosContratadosContainer.appendChild(d); }); document.querySelectorAll('.btnRemoveServicioContratado').forEach(b => { b.addEventListener('click', (e) => { const sIdx = parseInt(e.target.dataset.index); tempServiciosContratados.splice(sIdx, 1); renderizarServiciosContratadosEnModal(tempServiciosContratados); }); }); }
-            function poblarSelectPaquetesServicio() { if (!selectPaqueteServicio) return; const valorActual = selectPaqueteServicio.value; selectPaqueteServicio.innerHTML = '<option value="">Seleccionar paquete...</option>'; paquetes_servicios_data.forEach(p => { const o = document.createElement('option'); o.value = p.id; o.textContent = p.nombre; selectPaqueteServicio.appendChild(o); }); if(paquetes_servicios_data.find(p => p.id === valorActual)) selectPaqueteServicio.value = valorActual;}
-            if(btnAddServicioContratado) btnAddServicioContratado.addEventListener('click', () => { const pId = selectPaqueteServicio.value; const m = montoPaqueteServicioInput.value; const tC = tipoCobroPaqueteServicioSelect.value; if (!pId) { showToast('Seleccione paquete.', "warning"); return; } if (!m || parseFloat(m) <= 0) { showToast('Monto válido.', "warning"); return; } const pSel = paquetes_servicios_data.find(p => p.id === pId); if (pSel) { if (tempServiciosContratados.find(s => s.idServicio === pId)) { showToast('Paquete ya añadido.', "info"); return; } tempServiciosContratados.push({ idServicio: pSel.id, nombreServicio: pSel.nombre, monto: parseFloat(m).toFixed(2), tipoCobro: tC }); renderizarServiciosContratadosEnModal(tempServiciosContratados); selectPaqueteServicio.value = ''; montoPaqueteServicioInput.value = ''; } });
-            function abrirModalCliente(esEdicion = false, index = null) { formCliente.reset(); editandoClienteIndex = null; tempServiciosContratados = []; poblarSelectPaquetesServicio(); if (esEdicion && index !== null && clientes_data[index]) { modalClienteTitle.textContent = 'Editar Cliente'; const c = clientes_data[index]; document.getElementById('nombreCliente').value = c.nombre; document.getElementById('clinicaCliente').value = c.clinica||''; document.getElementById('emailCliente').value = c.email||''; document.getElementById('telefonoCliente').value = c.telefono||''; document.getElementById('serviciosActivosGeneralCliente').value = c.serviciosActivosGeneral||''; document.getElementById('pagadoCliente').value = c.pagado||0; document.getElementById('notasCliente').value = c.notas||''; document.getElementById('dominioWebCliente').value = c.dominioWeb||''; document.getElementById('tipoServicioWebCliente').value = c.tipoServicioWeb||''; document.getElementById('vencimientoWebCliente').value = c.vencimientoWeb||''; document.getElementById('plataformasRedesCliente').value = c.plataformasRedes||''; document.getElementById('detallesRedesCliente').value = c.detallesRedes||''; tempServiciosContratados = (Array.isArray(c.serviciosContratados) ? [...c.serviciosContratados] : []); editandoClienteIndex = index; } else { modalClienteTitle.textContent = 'Añadir Cliente'; tempServiciosContratados = []; editandoClienteIndex = null; } renderizarServiciosContratadosEnModal(tempServiciosContratados); modalCliente.classList.add('active'); void modalCliente.offsetWidth; modalClienteContent.style.transform = 'translateY(0)'; document.getElementById('nombreCliente').focus(); }
-            function cerrarModalCliente() { modalClienteContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalCliente.classList.remove('active'); formCliente.reset(); editandoClienteIndex = null; tempServiciosContratados = [];}, 300); }
-            formCliente.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try { const idC = (editandoClienteIndex !== null && clientes_data[editandoClienteIndex]) ? clientes_data[editandoClienteIndex].id : 'cliente_' + Date.now(); let dC = { id: idC, nombre: document.getElementById('nombreCliente').value.trim(), clinica: document.getElementById('clinicaCliente').value.trim(), email: document.getElementById('emailCliente').value.trim(), telefono: document.getElementById('telefonoCliente').value.trim(), serviciosActivosGeneral: document.getElementById('serviciosActivosGeneralCliente').value.trim(), pagado: parseFloat(document.getElementById('pagadoCliente').value) || 0, notas: document.getElementById('notasCliente').value.trim(), dominioWeb: document.getElementById('dominioWebCliente').value.trim(), tipoServicioWeb: document.getElementById('tipoServicioWebCliente').value.trim(), vencimientoWeb: document.getElementById('vencimientoWebCliente').value, plataformasRedes: document.getElementById('plataformasRedesCliente').value.trim(), detallesRedes: document.getElementById('detallesRedesCliente').value.trim(), serviciosContratados: [...tempServiciosContratados] };  dC.configuracionRedes = (editandoClienteIndex !== null && clientes_data[editandoClienteIndex] && clientes_data[editandoClienteIndex].configuracionRedes) ? clientes_data[editandoClienteIndex].configuracionRedes : {}; if (dC.nombre === "") { showToast("Nombre cliente obligatorio.", "warning"); document.getElementById('nombreCliente').focus(); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; return; } const guardadoOK = await guardarClienteEnSheets(dC); if (guardadoOK) { showToast(editandoClienteIndex !== null ? "Cliente actualizado" : "Cliente añadido", "success"); renderizarClientesResumen(); cerrarModalCliente(); poblarSelectorClientesTarea(); poblarSelectoresClientePublicaciones(); poblarSelectorClienteIngresos(); poblarSelectorClienteCuentasCobrar(); if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === dC.id) mostrarPerfilDedicado(dC.id); }} catch (error) {console.error("Error en submit formCliente:", error); showToast("Ocurrió un error al guardar.", "error");} finally { submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-            function handleEditarCliente(e) { const index = parseInt(e.target.dataset.originalIndex); abrirModalCliente(true, index); }
-            async function handleEliminarCliente(e) { const oIdx = parseInt(e.target.dataset.originalIndex); const cAE = clientes_data[oIdx]; if (cAE) { mostrarModalConfirmacion( "Confirmar Eliminación", `¿Seguro que quieres eliminar a ${cAE.nombre}? Esta acción no se puede deshacer.`, async () => { const cIdE = cAE.id; const elimOK = await eliminarClienteDeSheets(cIdE); if (elimOK) { showToast("Cliente eliminado", "success"); renderizarClientesResumen(); let pubMod = false; publicaciones_data.forEach(pub => { if(String(pub.clienteId) === String(cIdE)) { pub.clienteNombre = "Cliente Eliminado"; pub.clienteId = ""; pubMod = true;}}); if(pubMod && document.getElementById('publicaciones') && document.getElementById('publicaciones').offsetParent !== null) aplicarFiltrosPublicaciones(); let ingMod = false; ingresos_data.forEach(ing => {if(String(ing.clienteId) === String(cIdE)) { ing.clienteNombre = "Cliente Eliminado"; ing.clienteId = ""; ingMod = true;}}); if(ingMod && document.getElementById('administracion') && document.getElementById('administracion').offsetParent !== null) aplicarFiltrosIngresos(); let ccMod = false; cuentas_cobrar_data.forEach(cc => {if(String(cc.clienteId) === String(cIdE)) { cc.clienteNombre = "Cliente Eliminado"; cc.clienteId = ""; ccMod = true;}}); if(ccMod && document.getElementById('administracion') && document.getElementById('administracion').offsetParent !== null) aplicarFiltrosCuentasCobrar(); poblarSelectoresClientePublicaciones(); poblarSelectorClienteIngresos(); poblarSelectorClienteCuentasCobrar(); actualizarComponentesDashboard(); detallePerfilClientePreviewEl.classList.add('hidden'); detallePerfilClientePreviewEl.innerHTML = ''; poblarSelectorClientesTarea(); if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === cIdE) window.location.hash = '#dashboard'; }}, "Eliminar Cliente", "bg-danger hover:bg-red-700");}}
-
-            function renderizarClientesResumen(lista = clientes_data) { if (!tablaClientesBody) return; tablaClientesBody.innerHTML = ''; if (lista.length === 0) { const msg = buscadorClientesInput.value.trim() !== '' ? 'No se encontraron clientes.' : 'No hay clientes. ¡Añade el primero!'; tablaClientesBody.innerHTML = `<tr><td colspan="5" class="text-center py-3">${msg}</td></tr>`; return; } lista.forEach((c) => { const oIdx = clientes_data.findIndex(cl => cl.id === c.id); const tr = document.createElement('tr'); tr.innerHTML = `<td class="font-medium text-brand-text-primary dark:text-slate-200">${c.nombre||'-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${c.clinica||'-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${c.serviciosActivosGeneral||'-'}</td><td class="text-brand-text-secondary dark:text-slate-400">$${(parseFloat(c.pagado)||0).toFixed(2)}</td><td class="text-right text-sm font-medium"><button data-cliente-id="${c.id}" class="ver-perfil-btn font-semibold mr-3">Ver Perfil</button><button data-original-index="${oIdx}" class="editar-cliente-btn font-semibold mr-3">Editar</button><button data-original-index="${oIdx}" class="eliminar-cliente-btn font-semibold">Eliminar</button></td>`; tablaClientesBody.appendChild(tr); }); document.querySelectorAll('.ver-perfil-btn').forEach(b=>b.addEventListener('click',handleVerPerfilDedicado)); document.querySelectorAll('.editar-cliente-btn').forEach(b=>b.addEventListener('click',handleEditarCliente)); document.querySelectorAll('.eliminar-cliente-btn').forEach(b=>b.addEventListener('click',handleEliminarCliente)); }
-            function renderizarServiciosWeb() { const tabla = document.getElementById('tablaServiciosWebBody'); if(!tabla) return; tabla.innerHTML = ''; const cW = clientes_data.filter(c => c.dominioWeb && String(c.dominioWeb).trim() !== ''); if (cW.length === 0) { tabla.innerHTML = '<tr><td colspan="4" class="text-center py-3">Ningún cliente tiene servicios web registrados.</td></tr>'; return; } cW.forEach(c => { const tr = document.createElement('tr'); tr.innerHTML = `<td class="font-medium text-brand-text-primary dark:text-slate-200">${c.nombre}</td><td class="text-brand-text-secondary dark:text-slate-400">${c.dominioWeb}</td><td class="text-brand-text-secondary dark:text-slate-400">${c.tipoServicioWeb||'-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(c.vencimientoWeb)}</td>`; tabla.appendChild(tr); }); }
-            function renderizarPaquetesServicios() { if (!listaPaquetesServiciosEl) return; listaPaquetesServiciosEl.innerHTML = ''; if (paquetes_servicios_data.length === 0) { listaPaquetesServiciosEl.innerHTML = '<p class="text-brand-text-secondary dark:text-slate-400 col-span-full text-center py-4">No hay paquetes de servicios definidos. Añade el primero.</p>'; return; } paquetes_servicios_data.forEach(p => { const card = document.createElement('div'); card.className = 'content-card-modern'; card.innerHTML = `<h3 class="text-lg font-semibold text-brand-primary dark:text-primary-light mb-2">${p.nombre}</h3><p class="text-sm text-brand-text-secondary dark:text-slate-400 mb-1"><strong>Categoría:</strong> ${p.categoria||'N/A'}</p><p class="text-sm text-brand-text-secondary dark:text-slate-400 mb-3">${p.descripcion||'Sin descripción.'}</p>${p.precioSugerido?`<p class="text-sm font-medium text-brand-text-primary dark:text-slate-200">Precio Sug.: $${parseFloat(p.precioSugerido).toFixed(2)}</p>`:''}`; listaPaquetesServiciosEl.appendChild(card); }); }
-
-            function poblarSelectorClientesTarea() { if(!clienteAsociadoTareaSelect) return; const v = clienteAsociadoTareaSelect.value; clienteAsociadoTareaSelect.innerHTML = '<option value="">Ninguno</option>'; clientes_data.forEach(c => { const o=document.createElement('option'); o.value=c.id; o.textContent=c.nombre; clienteAsociadoTareaSelect.appendChild(o); }); if(clientes_data.find(c=>c.id===v)) clienteAsociadoTareaSelect.value=v; else clienteAsociadoTareaSelect.value = "";}
-            function abrirModalTarea(esEdicion = false, index = null) { formTarea.reset(); editandoTareaIndex = null; poblarSelectorClientesTarea(); modalTarea.classList.add('active'); void modalTarea.offsetWidth; modalTareaContent.style.transform = 'translateY(0)'; document.getElementById('nombreTarea').focus(); if (esEdicion && index !== null && tareas_data[index]) { modalTareaTitle.textContent = 'Editar Tarea'; const t = tareas_data[index]; document.getElementById('nombreTarea').value = t.nombre; document.getElementById('clienteAsociadoTarea').value = t.clienteId||""; document.getElementById('fechaEntregaTarea').value = t.fechaEntrega; document.getElementById('estadoTarea').value = t.estado; document.getElementById('descripcionTarea').value = t.descripcion||""; editandoTareaIndex = index; } else { modalTareaTitle.textContent = 'Añadir Tarea'; editandoTareaIndex = null; } }
-            function cerrarModalTarea() { modalTareaContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalTarea.classList.remove('active'); formTarea.reset(); editandoTareaIndex = null;}, 300); }
-            formTarea.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try { const nT = document.getElementById('nombreTarea').value.trim(); if (nT === "") { showToast("Nombre tarea obligatorio.", "warning"); document.getElementById('nombreTarea').focus(); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; return; } const cIdS = document.getElementById('clienteAsociadoTarea').value; const cS = clientes_data.find(c => c.id === cIdS); const dT = { id: (editandoTareaIndex !== null && tareas_data[editandoTareaIndex]) ? tareas_data[editandoTareaIndex].id : ('tarea_' + Date.now() + Math.random().toString(36).substr(2, 5)), nombre: nT, clienteId: cIdS, clienteNombre: cS ? cS.nombre : 'Ninguno', fechaEntrega: document.getElementById('fechaEntregaTarea').value, estado: document.getElementById('estadoTarea').value, descripcion: document.getElementById('descripcionTarea').value.trim() }; const resultadoGuardado = await guardarTareaEnSheets(dT); if (resultadoGuardado.success) { const esNueva = !tareas_data.some(t => t.id === resultadoGuardado.data.id); if(esNueva) tareas_data.push(resultadoGuardado.data); else { const idx = tareas_data.findIndex(t => t.id === resultadoGuardado.data.id); if(idx !== -1) tareas_data[idx] = resultadoGuardado.data; else tareas_data.push(resultadoGuardado.data); } actualizarComponentesDashboard(); showToast(resultadoGuardado.message || (editandoTareaIndex !== null ? "Tarea actualizada" : "Tarea añadida"), "success"); renderizarTareas(); cerrarModalTarea(); if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === dT.clienteId) mostrarPerfilDedicado(dT.clienteId); }} catch (error) {console.error("Error submit formTarea:", error); showToast("Ocurrió un error.", "error");} finally { submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-            function renderizarTareas(lista = tareas_data) { if (!tablaTareasBody) return; tablaTareasBody.innerHTML = ''; if (lista.length === 0) { tablaTareasBody.innerHTML = `<tr><td colspan="5" class="text-center py-3">No hay tareas.</td></tr>`; return; } lista.forEach((t) => { const oIdx = tareas_data.findIndex(ta => ta.id === t.id); const tr = document.createElement('tr'); let eCol = 'text-brand-text-primary dark:text-slate-200'; if(t.estado==='Pendiente')eCol='text-warning dark:text-yellow-400'; else if(t.estado==='En Progreso')eCol='text-info dark:text-blue-400'; else if(t.estado==='Completada')eCol='text-success dark:text-green-400'; tr.innerHTML = `<td class="font-medium text-brand-text-primary dark:text-slate-200">${t.nombre}</td><td class="text-brand-text-secondary dark:text-slate-400">${t.clienteNombre||'Ninguno'}</td><td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(t.fechaEntrega)||'-'}</td><td class="font-semibold ${eCol}">${t.estado}</td><td class="text-right text-sm font-medium"><button data-original-index="${oIdx}" class="editar-tarea-btn font-semibold mr-3">Editar</button><button data-original-index="${oIdx}" class="eliminar-tarea-btn font-semibold">Eliminar</button></td>`; tablaTareasBody.appendChild(tr); }); document.querySelectorAll('.editar-tarea-btn').forEach(b=>b.addEventListener('click',handleEditarTarea)); document.querySelectorAll('.eliminar-tarea-btn').forEach(b=>b.addEventListener('click',handleEliminarTarea)); }
-            function handleEditarTarea(e) { const index = parseInt(e.target.dataset.originalIndex); abrirModalTarea(true, index); }
-            async function handleEliminarTarea(e) { const oIdx = parseInt(e.target.dataset.originalIndex); const tAE = tareas_data[oIdx]; if (tAE) { mostrarModalConfirmacion("Confirmar Eliminación", `¿Eliminar tarea "${tAE.nombre}"?`, async () => {const cIdAf = tAE.clienteId; const tIdE = tAE.id; const resultadoEliminacion = await eliminarTareaDeSheets(tIdE); if (resultadoEliminacion.success) { tareas_data = tareas_data.filter(t=> t.id !== tIdE); actualizarComponentesDashboard(); showToast(resultadoEliminacion.message || "Tarea eliminada", "success"); renderizarTareas(); if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === cIdAf) mostrarPerfilDedicado(cIdAf); }}, "Eliminar Tarea", "bg-danger hover:bg-red-700");}}
-
-            function poblarSelectoresClientePublicaciones() { if(clientePublicacionSelect){ const vM=clientePublicacionSelect.value; clientePublicacionSelect.innerHTML='<option value="">-- Cliente --</option>'; clientes_data.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.nombre;clientePublicacionSelect.appendChild(o);}); if(clientes_data.find(c=>c.id===vM))clientePublicacionSelect.value=vM; else clientePublicacionSelect.value = "";} if(filtroPublicacionesClienteSelect){ const vF=filtroPublicacionesClienteSelect.value; filtroPublicacionesClienteSelect.innerHTML='<option value="">Todos Clientes</option>'; clientes_data.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.nombre;filtroPublicacionesClienteSelect.appendChild(o);}); if(clientes_data.find(c=>c.id===vF))filtroPublicacionesClienteSelect.value=vF; else filtroPublicacionesClienteSelect.value = "";} }
-            function renderizarTablaPublicaciones(listaCompleta = publicaciones_data) { if(!tablaPublicacionesBody || !paginacionPublicacionesContainer)return; tablaPublicacionesBody.innerHTML=''; const listaOrdenada = [...listaCompleta].sort((a,b)=>{const dA=new Date(`${a.fechaPublicacion}T${a.horaPublicacion||'00:00'}`); const dB=new Date(`${b.fechaPublicacion}T${b.horaPublicacion||'00:00'}`); return dB-dA;}); const startIndex = (currentPagePublicaciones - 1) * itemsPerPagePublicaciones; const itemsParaPaginaActual = listaOrdenada.slice(startIndex, startIndex + itemsPerPagePublicaciones); if(itemsParaPaginaActual.length===0 && listaCompleta.length > 0){tablaPublicacionesBody.innerHTML=`<tr><td colspan="7" class="text-center py-4">No hay publicaciones en esta página.</td></tr>`;} else if(listaCompleta.length===0){tablaPublicacionesBody.innerHTML=`<tr><td colspan="7" class="text-center py-4">No hay publicaciones que coincidan.</td></tr>`;} else { itemsParaPaginaActual.forEach(p=>{const tr=document.createElement('tr'); const ext=p.contenidoTexto?(p.contenidoTexto.substring(0,50)+(p.contenidoTexto.length>50?'...':'')):'-'; let eBg='bg-gray-200 text-gray-700 dark:bg-slate-600 dark:text-slate-200'; switch(p.estado?p.estado.toLowerCase():''){case 'borrador':eBg='bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-100';break;case 'programada':eBg='bg-indigo-100 text-indigo-700 dark:bg-indigo-700 dark:text-indigo-100';break;case 'revisión cliente':eBg='bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100';break;case 'aprobada':eBg='bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-100';break;case 'publicada':eBg='bg-success text-white dark:bg-green-600';break;case 'rechazada':eBg='bg-danger text-white dark:bg-red-600';break;} tr.innerHTML=`<td class="text-brand-text-secondary dark:text-slate-400">${p.clienteNombre||clientes_data.find(c=>c.id===p.clienteId)?.nombre||'N/A'}</td><td class="text-brand-text-secondary dark:text-slate-400">${p.redSocial||'-'}</td><td class="text-brand-text-primary dark:text-slate-200 text-sm">${ext}</td><td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(p.fechaPublicacion)||'-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${p.horaPublicacion||'-'}</td><td><span class="px-2 py-1 text-xs font-semibold rounded-full ${eBg}">${p.estado||'-'}</span></td><td class="text-right text-sm font-medium"><button data-id="${p.id}" class="editar-publicacion-btn font-semibold mr-3 text-brand-primary hover:text-brand-primary-hover dark:text-primary-light dark:hover:text-blue-300">Editar</button><button data-id="${p.id}" class="eliminar-publicacion-btn font-semibold text-danger hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Eliminar</button></td>`;tablaPublicacionesBody.appendChild(tr);});} setupPaginacionPublicaciones(listaCompleta.length); paginacionPublicacionesContainer.style.display = listaCompleta.length > 0 ? 'flex' : 'none'; document.querySelectorAll('.editar-publicacion-btn').forEach(b=>b.addEventListener('click',handleAbrirModalEditarPublicacion)); document.querySelectorAll('.eliminar-publicacion-btn').forEach(b=>b.addEventListener('click',handleEliminarPublicacion));}
-            function setupPaginacionPublicaciones(totalItems) { if (!numerosPaginaPublicacionesEl || !btnPrevPublicaciones || !btnNextPublicaciones) return; const totalPages = Math.ceil(totalItems / itemsPerPagePublicaciones); numerosPaginaPublicacionesEl.innerHTML = ''; if (totalPages > 0) { numerosPaginaPublicacionesEl.textContent = `Página ${currentPagePublicaciones} de ${totalPages}`; } else { numerosPaginaPublicacionesEl.textContent = ''; } btnPrevPublicaciones.disabled = currentPagePublicaciones === 1; btnNextPublicaciones.disabled = currentPagePublicaciones === totalPages || totalPages === 0; }
-            if (btnPrevPublicaciones) btnPrevPublicaciones.addEventListener('click', () => { if (currentPagePublicaciones > 1) { currentPagePublicaciones--; aplicarFiltrosPublicaciones(); }});
-            if (btnNextPublicaciones) btnNextPublicaciones.addEventListener('click', () => { const totalItemsFiltrados = obtenerPublicacionesFiltradas().length; const totalPages = Math.ceil(totalItemsFiltrados / itemsPerPagePublicaciones); if (currentPagePublicaciones < totalPages) { currentPagePublicaciones++; aplicarFiltrosPublicaciones(); }});
-            function obtenerPublicacionesFiltradas() { if(!filtroPublicacionesClienteSelect || !filtroPublicacionesEstadoSelect) return publicaciones_data; const clienteIdFiltro = filtroPublicacionesClienteSelect.value; const estadoFiltro = filtroPublicacionesEstadoSelect.value; let filtradas = publicaciones_data; if (clienteIdFiltro) filtradas = filtradas.filter(p => p.clienteId === clienteIdFiltro); if (estadoFiltro) filtradas = filtradas.filter(p => p.estado === estadoFiltro); return filtradas;}
-            function aplicarFiltrosPublicaciones() { currentPagePublicaciones = 1; const listaFiltrada = obtenerPublicacionesFiltradas(); renderizarTablaPublicaciones(listaFiltrada); }
-            if(filtroPublicacionesClienteSelect) filtroPublicacionesClienteSelect.addEventListener('change', aplicarFiltrosPublicaciones);
-            if(filtroPublicacionesEstadoSelect) filtroPublicacionesEstadoSelect.addEventListener('change', aplicarFiltrosPublicaciones);
-            function abrirModalPublicacion(esEdicion=false, pubId=null){ formPublicacion.reset(); poblarSelectoresClientePublicaciones(); editandoPublicacionId=null; document.getElementById('contenidoTextoPublicacion').focus(); if(esEdicion&&pubId){const pub=publicaciones_data.find(p=>p.id===pubId); if(pub){modalPublicacionTitle.textContent='Editar Publicación'; editandoPublicacionId=pubId; document.getElementById('clientePublicacion').value=pub.clienteId||''; document.getElementById('redSocialPublicacion').value=pub.redSocial||''; document.getElementById('fechaPublicacion').value=pub.fechaPublicacion||''; document.getElementById('horaPublicacion').value=pub.horaPublicacion||''; document.getElementById('tipoContenidoPublicacion').value=pub.tipoContenido||''; document.getElementById('estadoPublicacion').value=pub.estado||'Borrador'; document.getElementById('contenidoTextoPublicacion').value=pub.contenidoTexto||''; document.getElementById('enlaceMediaPublicacion').value=pub.enlaceMedia||''; document.getElementById('notasInternasPublicacion').value=pub.notasInternas||'';}else{showToast("Publicación no encontrada.","error");return;}}else{modalPublicacionTitle.textContent='Añadir Publicación';} modalPublicacion.classList.add('active');void modalPublicacion.offsetWidth;modalPublicacionContent.style.transform='translateY(0)';}
-            function cerrarModalPublicacion(){ modalPublicacionContent.style.transform='translateY(-20px)';setTimeout(()=>{modalPublicacion.classList.remove('active'); formPublicacion.reset(); editandoPublicacionId=null;},300);}
-            if(btnAbrirModalPublicacion)btnAbrirModalPublicacion.addEventListener('click',()=>abrirModalPublicacion()); if(btnCerrarModalPublicacion)btnCerrarModalPublicacion.addEventListener('click',cerrarModalPublicacion); if(btnCancelarModalPublicacion)btnCancelarModalPublicacion.addEventListener('click',cerrarModalPublicacion); if(modalPublicacion)modalPublicacion.addEventListener('click',(e)=>{if(e.target===modalPublicacion&&!modalPublicacionContent.contains(e.target))cerrarModalPublicacion();});
-            formPublicacion.addEventListener('submit',async(e)=>{ e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try {const cId=document.getElementById('clientePublicacion').value; const fP=document.getElementById('fechaPublicacion').value; const cont=document.getElementById('contenidoTextoPublicacion').value.trim(); const rS=document.getElementById('redSocialPublicacion').value; if(!cId||!fP||!cont||!rS){showToast("Cliente, Red, Fecha y Contenido son obligatorios.","warning"); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; document.getElementById('clientePublicacion').focus(); return;} const cS=clientes_data.find(c=>c.id===cId); const dP={id:editandoPublicacionId,clienteId:cId,clienteNombre:cS?cS.nombre:'',redSocial:rS,fechaPublicacion:fP,horaPublicacion:document.getElementById('horaPublicacion').value,contenidoTexto:cont,enlaceMedia:document.getElementById('enlaceMediaPublicacion').value.trim(),tipoContenido:document.getElementById('tipoContenidoPublicacion').value.trim(),estado:document.getElementById('estadoPublicacion').value,notasInternas:document.getElementById('notasInternasPublicacion').value.trim(),}; const guardadoOK = await guardarPublicacionEnSheets(dP); if(guardadoOK){showToast(editandoPublicacionId?"Publicación actualizada":"Publicación añadida","success");aplicarFiltrosPublicaciones();cerrarModalPublicacion();}} catch(error){console.error("Error submit formPublicacion:", error); showToast("Ocurrió un error.", "error");} finally {submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-            function handleAbrirModalEditarPublicacion(e){const pubId=e.target.dataset.id; abrirModalPublicacion(true,pubId);}
-            async function handleEliminarPublicacion(e){const pubId=e.target.dataset.id; const pub=publicaciones_data.find(p=>p.id===pubId); if(pub){mostrarModalConfirmacion("Confirmar Eliminación", `¿Eliminar publicación para ${pub.clienteNombre||'N/A'} del ${formatLocalDate(pub.fechaPublicacion)}?`, async () => {const elimOK=await eliminarPublicacionDeSheets(pubId); if(elimOK){showToast("Publicación eliminada","success");aplicarFiltrosPublicaciones();}}, "Eliminar Publicación", "bg-danger hover:bg-red-700");}}
-
-            function abrirModalPaqueteServicio() { formPaqueteServicio.reset(); document.getElementById('nombrePaquete').focus(); modalPaqueteServicio.classList.add('active'); void modalPaqueteServicio.offsetWidth; modalPaqueteServicioContent.style.transform = 'translateY(0)'; }
-            function cerrarModalPaqueteServicio() { modalPaqueteServicioContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalPaqueteServicio.classList.remove('active'); formPaqueteServicio.reset(); }, 300); }
-            if(btnAbrirModalPaqueteServicio) btnAbrirModalPaqueteServicio.addEventListener('click', abrirModalPaqueteServicio);
-            if(btnCerrarModalPaqueteServicio) btnCerrarModalPaqueteServicio.addEventListener('click', cerrarModalPaqueteServicio);
-            if(btnCancelarModalPaqueteServicio) btnCancelarModalPaqueteServicio.addEventListener('click', cerrarModalPaqueteServicio);
-            if(modalPaqueteServicio) modalPaqueteServicio.addEventListener('click', (e) => { if (e.target === modalPaqueteServicio && !modalPaqueteServicioContent.contains(e.target)) cerrarModalPaqueteServicio(); });
-            formPaqueteServicio.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try { const nombre = document.getElementById('nombrePaquete').value.trim(); if (!nombre) { showToast("Nombre del paquete obligatorio.", "warning"); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; document.getElementById('nombrePaquete').focus(); return; } const datosPaquete = { nombre: nombre, categoria: document.getElementById('categoriaPaquete').value.trim(), descripcion: document.getElementById('descripcionPaquete').value.trim(), precioSugerido: parseFloat(document.getElementById('precioSugeridoPaquete').value) || null }; const guardadoExitoso = await guardarPaqueteServicioEnSheets(datosPaquete); if (guardadoExitoso) { showToast("Paquete de servicio añadido", "success"); renderizarPaquetesServicios(); poblarSelectPaquetesServicio(); cerrarModalPaqueteServicio(); }} catch (error) {console.error("Error submit formPaqueteServicio:", error); showToast("Ocurrió un error.", "error");} finally {submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-
-            function poblarSelectorClienteIngresos() { const selects = [clienteIngresoSelect, filtroIngresosClienteSelect]; selects.forEach(selectEl => { if (!selectEl) return; const currentValue = selectEl.value; const firstOptionText = selectEl === filtroIngresosClienteSelect ? "Todos los Clientes" : "-- Seleccione Cliente --"; selectEl.innerHTML = `<option value="">${firstOptionText}</option>`; clientes_data.forEach(cliente => { const option = document.createElement('option'); option.value = cliente.id; option.textContent = cliente.nombre; selectEl.appendChild(option); }); if (clientes_data.find(c => c.id === currentValue)) { selectEl.value = currentValue;} else if (selectEl === filtroIngresosClienteSelect) {selectEl.value = "";}}); if(referenciaPaqueteIngresoSelect) { const currentPkgVal = referenciaPaqueteIngresoSelect.value; referenciaPaqueteIngresoSelect.innerHTML = '<option value="">-- Ningún Paquete Específico --</option>'; paquetes_servicios_data.forEach(paquete => { const option = document.createElement('option'); option.value = paquete.id; option.textContent = paquete.nombre; referenciaPaqueteIngresoSelect.appendChild(option); }); if(paquetes_servicios_data.find(p => p.id === currentPkgVal)) referenciaPaqueteIngresoSelect.value = currentPkgVal;}}
-            function renderizarTablaIngresos(listaFiltrada = ingresos_data) { if (!tablaIngresosBody) return; tablaIngresosBody.innerHTML = ''; let totalVisualizado = 0; if (listaFiltrada.length === 0) { tablaIngresosBody.innerHTML = `<tr><td colspan="6" class="text-center text-sm text-brand-text-secondary dark:text-slate-400 py-4">No hay ingresos que coincidan.</td></tr>`; if(totalIngresosVisualizadosEl) totalIngresosVisualizadosEl.textContent = "$0.00"; return; } listaFiltrada.sort((a, b) => new Date(b.fechaPago) - new Date(a.fechaPago)); listaFiltrada.forEach(ingreso => { const tr = document.createElement('tr'); totalVisualizado += parseFloat(ingreso.monto || 0); tr.innerHTML = `<td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(ingreso.fechaPago) || '-'}</td><td class="text-brand-text-primary dark:text-slate-200 font-medium">${ingreso.clienteNombre || clientes_data.find(c=>c.id === ingreso.clienteId)?.nombre || 'N/A'}</td><td class="text-brand-text-secondary dark:text-slate-400">${ingreso.concepto || '-'}</td><td class="text-success dark:text-green-400 font-semibold">$${(parseFloat(ingreso.monto) || 0).toFixed(2)}</td><td class="text-brand-text-secondary dark:text-slate-400">${ingreso.metodoPago || '-'}</td><td class="text-right text-sm font-medium"><button data-id="${ingreso.id}" class="eliminar-ingreso-btn font-semibold text-danger hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Eliminar</button></td>`; tablaIngresosBody.appendChild(tr); }); if(totalIngresosVisualizadosEl) totalIngresosVisualizadosEl.textContent = `$${totalVisualizado.toFixed(2)}`; document.querySelectorAll('.eliminar-ingreso-btn').forEach(btn => btn.addEventListener('click', handleEliminarIngreso)); }
-            function aplicarFiltrosIngresos() { if(!filtroIngresosClienteSelect || !filtroIngresosMesInput) return; const clienteIdFiltro = filtroIngresosClienteSelect.value; const mesFiltro = filtroIngresosMesInput.value; let filtrados = ingresos_data; if (clienteIdFiltro) filtrados = filtrados.filter(i => i.clienteId === clienteIdFiltro); if (mesFiltro) filtrados = filtrados.filter(i => i.fechaPago && i.fechaPago.startsWith(mesFiltro)); renderizarTablaIngresos(filtrados); }
-            if(filtroIngresosClienteSelect) filtroIngresosClienteSelect.addEventListener('change', aplicarFiltrosIngresos);
-            if(filtroIngresosMesInput) filtroIngresosMesInput.addEventListener('change', aplicarFiltrosIngresos);
-            function abrirModalIngreso() { formIngreso.reset(); poblarSelectorClienteIngresos(); document.getElementById('clienteIngreso').focus(); modalIngreso.classList.add('active'); void modalIngreso.offsetWidth; modalIngresoContent.style.transform = 'translateY(0)'; }
-            function cerrarModalIngreso() { modalIngresoContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalIngreso.classList.remove('active'); formIngreso.reset();}, 300); }
-            if(btnAbrirModalIngreso) btnAbrirModalIngreso.addEventListener('click', abrirModalIngreso); if(btnCerrarModalIngreso) btnCerrarModalIngreso.addEventListener('click', cerrarModalIngreso); if(btnCancelarModalIngreso) btnCancelarModalIngreso.addEventListener('click', cerrarModalIngreso); if(modalIngreso) modalIngreso.addEventListener('click', (e) => { if (e.target === modalIngreso && !modalIngresoContent.contains(e.target)) cerrarModalIngreso(); });
-            formIngreso.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try {const clienteId = document.getElementById('clienteIngreso').value; const fechaPago = document.getElementById('fechaPagoIngreso').value; const monto = parseFloat(document.getElementById('montoIngreso').value); const concepto = document.getElementById('conceptoIngreso').value.trim(); if (!clienteId || !fechaPago || !monto || monto <= 0 || !concepto) { showToast("Cliente, Fecha, Monto y Concepto obligatorios.", "warning"); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; return; } const clienteSel = clientes_data.find(c => c.id === clienteId); const datosIngreso = { clienteId: clienteId, clienteNombre: clienteSel ? clienteSel.nombre : '', fechaPago: fechaPago, monto: monto, concepto: concepto, metodoPago: document.getElementById('metodoPagoIngreso').value, referenciaPaqueteId: document.getElementById('referenciaPaqueteIngreso').value || null, notas: document.getElementById('notasIngreso').value.trim() }; const guardadoOK = await guardarIngresoEnSheets(datosIngreso); if (guardadoOK) { showToast("Ingreso registrado", "success"); aplicarFiltrosIngresos(); cerrarModalIngreso(); }} catch (error) {console.error("Error submit formIngreso:", error); showToast("Ocurrió un error.", "error");} finally { submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-            async function handleEliminarIngreso(e) { const ingId = e.target.dataset.id; const ing = ingresos_data.find(i => i.id === ingId); if (ing) { mostrarModalConfirmacion("Confirmar Eliminación", `¿Eliminar ingreso de ${ing.clienteNombre||'N/A'} por $${ing.monto} (${ing.concepto})?`, async () => {const elimOK = await eliminarIngresoDeSheets(ingId); if (elimOK) { showToast("Ingreso eliminado", "success"); aplicarFiltrosIngresos(); }}, "Eliminar Ingreso", "bg-danger hover:bg-red-700");}}
-
-            function poblarSelectorClienteCuentasCobrar() { const selects = [clienteCuentaCobrarSelect, filtroCuentasCobrarClienteSelect]; selects.forEach(selectEl => { if (!selectEl) return; const currentValue = selectEl.value; const firstOptionText = selectEl === filtroCuentasCobrarClienteSelect ? "Todos los Clientes" : "-- Seleccione Cliente --"; selectEl.innerHTML = `<option value="">${firstOptionText}</option>`; clientes_data.forEach(cliente => { const option = document.createElement('option'); option.value = cliente.id; option.textContent = cliente.nombre; selectEl.appendChild(option); }); if (clientes_data.find(c => c.id === currentValue)) selectEl.value = currentValue; else if (selectEl === filtroCuentasCobrarClienteSelect) selectEl.value = ""; }); }
-            function renderizarTablaCuentasCobrar(listaFiltrada = cuentas_cobrar_data) { if (!tablaCuentasCobrarBody) return; tablaCuentasCobrarBody.innerHTML = ''; let totalSaldoPendiente = 0; if (listaFiltrada.length === 0) { tablaCuentasCobrarBody.innerHTML = `<tr><td colspan="9" class="text-center text-sm text-brand-text-secondary dark:text-slate-400 py-4">No hay cuentas por cobrar que coincidan.</td></tr>`; if(totalSaldoPendienteVisualizadoEl) totalSaldoPendienteVisualizadoEl.textContent = "$0.00"; return; } listaFiltrada.sort((a, b) => { const estadoOrder = { "Vencida": 1, "Pendiente": 2, "Pagada Parcialmente": 3, "Pagada": 4, "Cancelada": 5 }; const estadoA = estadoOrder[a.estado] || 6; const estadoB = estadoOrder[b.estado] || 6; if (estadoA !== estadoB) return estadoA - estadoB; const dateA = a.fechaVencimiento ? new Date(a.fechaVencimiento) : new Date(a.fechaEmision); const dateB = b.fechaVencimiento ? new Date(b.fechaVencimiento) : new Date(b.fechaEmision); return dateA - dateB; }); listaFiltrada.forEach(cc => { const tr = document.createElement('tr'); const montoTotal = parseFloat(cc.monto || 0); const montoPagado = parseFloat(cc.montoPagado || 0); const saldo = montoTotal - montoPagado; if (cc.estado !== "Pagada" && cc.estado !== "Cancelada") totalSaldoPendiente += saldo; let estadoClass = 'bg-gray-200 text-gray-700 dark:bg-slate-600 dark:text-slate-200'; switch(cc.estado) { case 'Pendiente': estadoClass = 'bg-yellow-100 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100'; break; case 'Pagada Parcialmente': estadoClass = 'bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-100'; break; case 'Pagada': estadoClass = 'bg-success text-white dark:bg-green-600 dark:text-green-100'; break; case 'Vencida': estadoClass = 'bg-danger text-white dark:bg-red-600 dark:text-red-100'; break; case 'Cancelada': estadoClass = 'bg-gray-400 text-white dark:bg-slate-500 dark:text-slate-200'; break;} tr.innerHTML = `<td class="text-brand-text-primary dark:text-slate-200 font-medium">${cc.clienteNombre || clientes_data.find(c=>c.id === cc.clienteId)?.nombre || 'N/A'}</td><td class="text-brand-text-secondary dark:text-slate-400">${cc.concepto || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">$${montoTotal.toFixed(2)}</td><td class="text-brand-text-secondary dark:text-slate-400">$${montoPagado.toFixed(2)}</td><td class="font-semibold ${saldo > 0 ? 'text-warning dark:text-yellow-400' : 'text-success dark:text-green-400'}">$${saldo.toFixed(2)}</td><td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(cc.fechaEmision) || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${formatLocalDate(cc.fechaVencimiento) || '-'}</td><td><span class="px-2 py-1 text-xs font-semibold rounded-full ${estadoClass}">${cc.estado || '-'}</span></td><td class="text-right text-sm font-medium"><button data-id="${cc.id}" class="eliminar-cuentacobrar-btn font-semibold text-danger hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Eliminar</button></td>`; tablaCuentasCobrarBody.appendChild(tr); }); if(totalSaldoPendienteVisualizadoEl) totalSaldoPendienteVisualizadoEl.textContent = `$${totalSaldoPendiente.toFixed(2)}`; document.querySelectorAll('.eliminar-cuentacobrar-btn').forEach(btn => btn.addEventListener('click', handleEliminarCuentaCobrar)); }
-            function aplicarFiltrosCuentasCobrar() { if(!filtroCuentasCobrarClienteSelect || !filtroCuentasCobrarEstadoSelect) return; const clienteIdFiltro = filtroCuentasCobrarClienteSelect.value; const estadoFiltro = filtroCuentasCobrarEstadoSelect.value; let filtrados = cuentas_cobrar_data; if (clienteIdFiltro) filtrados = filtrados.filter(cc => cc.clienteId === clienteIdFiltro); if (estadoFiltro) filtrados = filtrados.filter(cc => cc.estado === estadoFiltro); renderizarTablaCuentasCobrar(filtrados); }
-            if(filtroCuentasCobrarClienteSelect) filtroCuentasCobrarClienteSelect.addEventListener('change', aplicarFiltrosCuentasCobrar);
-            if(filtroCuentasCobrarEstadoSelect) filtroCuentasCobrarEstadoSelect.addEventListener('change', aplicarFiltrosCuentasCobrar);
-            function abrirModalCuentaCobrar() { formCuentaCobrar.reset(); poblarSelectorClienteCuentasCobrar(); document.getElementById('montoPagadoCuentaCobrar').value = "0"; document.getElementById('estadoCuentaCobrar').value = "Pendiente"; document.getElementById('clienteCuentaCobrar').focus(); modalCuentaCobrar.classList.add('active'); void modalCuentaCobrar.offsetWidth; modalCuentaCobrarContent.style.transform = 'translateY(0)'; }
-            function cerrarModalCuentaCobrar() { modalCuentaCobrarContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalCuentaCobrar.classList.remove('active'); formCuentaCobrar.reset(); editandoCuentaCobrarId = null; }, 300); }
-            if(btnAbrirModalCuentaCobrar) btnAbrirModalCuentaCobrar.addEventListener('click', abrirModalCuentaCobrar); if(btnCerrarModalCuentaCobrar) btnCerrarModalCuentaCobrar.addEventListener('click', cerrarModalCuentaCobrar); if(btnCancelarModalCuentaCobrar) btnCancelarModalCuentaCobrar.addEventListener('click', cerrarModalCuentaCobrar); if(modalCuentaCobrar) modalCuentaCobrar.addEventListener('click', (e) => { if (e.target === modalCuentaCobrar && !modalCuentaCobrarContent.contains(e.target)) cerrarModalCuentaCobrar(); });
-            formCuentaCobrar.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try{ const clienteId = document.getElementById('clienteCuentaCobrar').value; const concepto = document.getElementById('conceptoCuentaCobrar').value.trim(); const monto = parseFloat(document.getElementById('montoCuentaCobrar').value); const fechaEmision = document.getElementById('fechaEmisionCuentaCobrar').value; if (!clienteId || !concepto || !monto || monto <= 0 || !fechaEmision) { showToast("Cliente, Concepto, Monto y Fecha Emisión obligatorios.", "warning"); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; document.getElementById('clienteCuentaCobrar').focus();return; } const clienteSel = clientes_data.find(c => c.id === clienteId); const datosCuenta = { id:editandoCuentaCobrarId, clienteId: clienteId, clienteNombre: clienteSel ? clienteSel.nombre : '', concepto: concepto, monto: monto, montoPagado: parseFloat(document.getElementById('montoPagadoCuentaCobrar').value) || 0, fechaEmision: fechaEmision, fechaVencimiento: document.getElementById('fechaVencimientoCuentaCobrar').value || null, estado: document.getElementById('estadoCuentaCobrar').value, fechaUltimoPago: document.getElementById('fechaUltimoPagoCuentaCobrar').value || null, notas: document.getElementById('notasCuentaCobrar').value.trim() }; const guardadoOK = await guardarCuentaPorCobrarEnSheets(datosCuenta); if (guardadoOK) { showToast("Cuenta por cobrar guardada", "success"); aplicarFiltrosCuentasCobrar(); cerrarModalCuentaCobrar(); }} catch (error) {console.error("Error submit formCuentaCobrar:", error); showToast("Ocurrió un error.", "error");} finally { submitButton.disabled = false; submitButton.innerHTML = originalButtonText;} });
-            async function handleEliminarCuentaCobrar(e) { const cuentaId = e.target.dataset.id; const cuenta = cuentas_cobrar_data.find(cc => cc.id === cuentaId); if (cuenta) { mostrarModalConfirmacion("Confirmar Eliminación", `¿Eliminar cuenta por cobrar para ${cuenta.clienteNombre||'N/A'} de $${cuenta.monto} (${cuenta.concepto})?`, async () => {const elimOK = await eliminarCuentaPorCobrarDeSheets(cuentaId); if (elimOK) { showToast("Cuenta por cobrar eliminada", "success"); aplicarFiltrosCuentasCobrar(); }}, "Eliminar Cuenta", "bg-danger hover:bg-red-700"); } }
-
-            function renderizarTablaCuentasEmpresa(lista = cuentas_empresa_data) { if(!tablaCuentasEmpresaBody) return; tablaCuentasEmpresaBody.innerHTML = ''; if (lista.length === 0) { tablaCuentasEmpresaBody.innerHTML = `<tr><td colspan="6" class="text-center text-sm text-brand-text-secondary dark:text-slate-400 py-4">No hay cuentas de empresa registradas.</td></tr>`; return; } lista.forEach(cuenta => { const tr = document.createElement('tr'); tr.innerHTML = `<td class="text-brand-text-primary dark:text-slate-200 font-medium">${cuenta.nombreEntidad || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${cuenta.tipoCuenta || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${cuenta.identificadorCuenta || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${cuenta.titular || '-'}</td><td class="text-brand-text-secondary dark:text-slate-400">${cuenta.moneda || '-'}</td><td class="text-right text-sm font-medium"><button data-id="${cuenta.id}" class="eliminar-cuentaempresa-btn font-semibold text-danger hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Eliminar</button></td>`; tablaCuentasEmpresaBody.appendChild(tr);}); document.querySelectorAll('.eliminar-cuentaempresa-btn').forEach(btn => btn.addEventListener('click', handleEliminarCuentaEmpresa));}
-            function abrirModalCuentaEmpresa() { formCuentaEmpresa.reset(); document.getElementById('nombreEntidadCuentaEmpresa').focus(); modalCuentaEmpresa.classList.add('active'); void modalCuentaEmpresa.offsetWidth; modalCuentaEmpresaContent.style.transform = 'translateY(0)'; }
-            function cerrarModalCuentaEmpresa() { modalCuentaEmpresaContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalCuentaEmpresa.classList.remove('active'); formCuentaEmpresa.reset(); editandoCuentaEmpresaId = null;}, 300); }
-            if(btnAbrirModalCuentaEmpresa) btnAbrirModalCuentaEmpresa.addEventListener('click', abrirModalCuentaEmpresa);
-            if(btnCerrarModalCuentaEmpresa) btnCerrarModalCuentaEmpresa.addEventListener('click', cerrarModalCuentaEmpresa);
-            if(btnCancelarModalCuentaEmpresa) btnCancelarModalCuentaEmpresa.addEventListener('click', cerrarModalCuentaEmpresa);
-            if(modalCuentaEmpresa) modalCuentaEmpresa.addEventListener('click', (e) => { if (e.target === modalCuentaEmpresa && !modalCuentaEmpresaContent.contains(e.target)) cerrarModalCuentaEmpresa(); });
-            formCuentaEmpresa.addEventListener('submit', async (e) => { e.preventDefault(); const submitButton = e.submitter; const originalButtonText = submitButton.innerHTML; submitButton.disabled = true; submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`; try { const nombreEntidad = document.getElementById('nombreEntidadCuentaEmpresa').value.trim(); const tipoCuenta = document.getElementById('tipoCuentaEmpresa').value.trim(); const identificador = document.getElementById('identificadorCuentaEmpresa').value.trim(); if(!nombreEntidad || !tipoCuenta || !identificador) { showToast("Nombre entidad, Tipo e Identificador son obligatorios.", "warning"); submitButton.disabled = false; submitButton.innerHTML = originalButtonText; document.getElementById('nombreEntidadCuentaEmpresa').focus(); return;} const datosCuenta = { id: editandoCuentaEmpresaId, nombreEntidad: nombreEntidad, tipoCuenta: tipoCuenta, identificadorCuenta: identificador, titular: document.getElementById('titularCuentaEmpresa').value.trim(), moneda: document.getElementById('monedaCuentaEmpresa').value.trim(), notasConfidenciales: document.getElementById('notasConfidencialesCuentaEmpresa').value.trim() }; const guardadoOK = await guardarCuentaEmpresaEnSheets(datosCuenta); if(guardadoOK) { showToast("Cuenta de empresa guardada.", "success"); renderizarTablaCuentasEmpresa(cuentas_empresa_data); cerrarModalCuentaEmpresa(); }} catch (error) { console.error("Error submit formCuentaEmpresa:", error); showToast("Ocurrió un error.", "error");} finally { submitButton.disabled = false; submitButton.innerHTML = originalButtonText;}});
-            async function handleEliminarCuentaEmpresa(e) { const cuentaId = e.target.dataset.id; const cuenta = cuentas_empresa_data.find(ce => ce.id === cuentaId); if (cuenta) { mostrarModalConfirmacion("Confirmar Eliminación", `¿Eliminar cuenta "${cuenta.nombreEntidad} - ${cuenta.identificadorCuenta}"?`, async () => {const elimOK = await eliminarCuentaEmpresaDeSheets(cuentaId); if (elimOK) { showToast("Cuenta de empresa eliminada", "success"); renderizarTablaCuentasEmpresa(cuentas_empresa_data); }}, "Eliminar Cuenta", "bg-danger hover:bg-red-700");}}
-
-
-            function mostrarModalConfirmacion(title, message, onConfirmCallback, confirmButtonText = "Confirmar", confirmButtonClass = "bg-danger hover:bg-red-700") { modalConfirmacionTitleEl.textContent = title; modalConfirmacionMessageEl.textContent = message; confirmacionCallback = onConfirmCallback; btnConfirmarModalAccion.textContent = confirmButtonText; btnConfirmarModalAccion.className = 'btn btn-primary-modern'; confirmButtonClass.split(" ").forEach(cls => { if(cls.trim()) btnConfirmarModalAccion.classList.add(cls.trim()); }); modalConfirmacion.classList.add('active'); void modalConfirmacion.offsetWidth; modalConfirmacionContent.style.transform = 'translateY(0)'; }
-            function cerrarModalConfirmacion() { modalConfirmacionContent.style.transform = 'translateY(-20px)'; setTimeout(() => { modalConfirmacion.classList.remove('active'); confirmacionCallback = null; }, 300); }
-            btnConfirmarModalAccion.addEventListener('click', () => { if (typeof confirmacionCallback === 'function') { confirmacionCallback(); } cerrarModalConfirmacion(); });
-            btnCancelarModalConfirmacion.addEventListener('click', cerrarModalConfirmacion);
-            modalConfirmacion.addEventListener('click', (e) => { if (e.target === modalConfirmacion && !modalConfirmacionContent.contains(e.target)) cerrarModalConfirmacion(); });
-
-            if(btnVerCalendarioCompleto) { btnVerCalendarioCompleto.addEventListener('click', () => { const googleCalendarWebViewUrl = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(GOOGLE_CALENDAR_ID_FOR_VIEW)}`; window.open(googleCalendarWebViewUrl, '_blank'); }); }
-
-            if(buscadorClientesInput) buscadorClientesInput.addEventListener('input', function() { const t=this.value.toLowerCase().trim(); if(t==="")renderizarClientesResumen(clientes_data); else{const f=clientes_data.filter(c=>c.nombre.toLowerCase().includes(t));renderizarClientesResumen(f);}});
-            
-            function exportToCSV(tipo) { let data=[],hdrs=[],fname="export.csv";if(tipo==='clientes'){if(clientes_data.length===0){showToast("No hay clientes.","info");return;}data=clientes_data;hdrs=["ID Cliente","Nombre","Clínica","Email","Teléfono","Servicios Resumen","Pagado ($)","Notas","Dominio Web","Tipo Web","Vencimiento Web","Plataformas Redes (General)","Detalles Redes (General)","Servicios Contratados (JSON)","Configuración Redes (JSON)"];fname="clientes.csv";} const esc=(f)=>{if(f==null||typeof f==='undefined')return '';let sF=String(f);if(typeof f==='object'&&f!==null)try{sF=JSON.stringify(f);}catch(e){sF='[Error]';}if(sF.includes(',')||sF.includes('\n')||sF.includes('"'))sF='"'+sF.replace(/"/g,'""')+'"';return sF;}; let csv="data:text/csv;charset=utf-8,"+hdrs.map(esc).join(",")+"\n"; data.forEach(item=>{const row=hdrs.map(h=>{if(tipo==='clientes'){switch(h){case "ID Cliente":return esc(item.id);case "Nombre":return esc(item.nombre);case "Clínica":return esc(item.clinica);case "Email":return esc(item.email);case "Teléfono":return esc(item.telefono);case "Servicios Resumen":return esc(item.serviciosActivosGeneral);case "Pagado ($)":return esc((parseFloat(item.pagado)||0).toFixed(2));case "Notas":return esc(item.notas);case "Dominio Web":return esc(item.dominioWeb);case "Tipo Web":return esc(item.tipoServicioWeb);case "Vencimiento Web":return esc(item.vencimientoWeb);case "Plataformas Redes (General)":return esc(item.plataformasRedes);case "Detalles Redes (General)":return esc(item.detallesRedes);case "Servicios Contratados (JSON)":return esc(item.serviciosContratados||[]);case "Configuración Redes (JSON)":return esc(item.configuracionRedes||{});default:return '';}}return '';});csv+=row.join(",")+"\n";}); const uri=encodeURI(csv);const link=document.createElement("a");link.setAttribute("href",uri);link.setAttribute("download",fname);document.body.appendChild(link);link.click();document.body.removeChild(link);}
-
-            navLinks.forEach(link => { 
-                link.addEventListener('click', (e) => { 
-                    e.preventDefault(); 
-                    const hrefAttribute = link.getAttribute('href');
-                    if (hrefAttribute) {
-                        const targetId = hrefAttribute.substring(1); 
-                        if (targetId !== 'perfil-cliente') { 
-                            clienteSeleccionadoPerfilDedicadoId = null; 
-                            window.location.hash = `#${targetId}`; 
-                        } 
-                        if (window.innerWidth < 1024 && sidebarEl && !sidebarEl.classList.contains('-translate-x-full')) { 
-                            sidebarEl.classList.add('-translate-x-full'); 
-                        } 
-                    } else {
-                        // Este console.error ya no debería aparecer para theme-toggle y btnLogout
-                        console.error("NavLink (dentro de <nav>) sin atributo href:", link);
-                    }
-                }); 
-            });
-            
-            window.addEventListener('hashchange', () => {
-                const hash = window.location.hash;
-                let targetId = 'dashboard'; 
-                let clienteId = null;
-
-                if (hash && hash !== '#') { 
-                    if (hash.startsWith('#perfil-cliente?id=')) {
-                        targetId = 'perfil-cliente';
-                        clienteId = hash.substring('#perfil-cliente?id='.length);
-                    } else {
-                        const potentialTargetId = hash.substring(1);
-                         if (document.getElementById(potentialTargetId)) { // Verificar si la sección existe
-                            targetId = potentialTargetId;
+                        if (!perfilDedicadoSection.classList.contains('hidden') && clienteSeleccionadoPerfilDedicadoId === dC.id) {
+                            mostrarPerfilDedicado(dC.id);
                         }
                     }
-                }
-                
-                if (targetId !== 'perfil-cliente' && !document.getElementById(targetId)) {
-                    targetId = 'dashboard';
-                }
-
-                if (targetId !== 'perfil-cliente') {
-                    vistaAnterior = `#${targetId}`;
-                }
-                showSection(targetId, clienteId);
-            });
-
-            if(btnAbrirModalCliente) btnAbrirModalCliente.addEventListener('click', () => abrirModalCliente()); 
-            if(btnCerrarModalCliente) btnCerrarModalCliente.addEventListener('click', cerrarModalCliente); 
-            if(btnCancelarModalCliente) btnCancelarModalCliente.addEventListener('click', cerrarModalCliente); 
-            if(btnExportarCSVClientes) btnExportarCSVClientes.addEventListener('click', () => exportToCSV('clientes')); 
-            if(modalCliente) modalCliente.addEventListener('click', (e) => { if (e.target === modalCliente && !modalClienteContent.contains(e.target)) cerrarModalCliente(); });
-            
-            if(btnAbrirModalTarea) btnAbrirModalTarea.addEventListener('click', () => abrirModalTarea()); 
-            if(btnCerrarModalTarea) btnCerrarModalTarea.addEventListener('click', cerrarModalTarea); 
-            if(btnCancelarModalTarea) btnCancelarModalTarea.addEventListener('click', cerrarModalTarea); 
-            if(modalTarea) modalTarea.addEventListener('click', (e) => { if (e.target === modalTarea && !modalTareaContent.contains(e.target)) cerrarModalTarea(); });
-
-
-            // FUNCIONES DE LOGIN/LOGOUT
-            function showLoginScreen() {
-                if (loginScreen) loginScreen.style.display = 'flex';
-                if (mainContentWrapper) mainContentWrapper.style.display = 'none';
-                if (sidebarToggleBtnEl) sidebarToggleBtnEl.style.display = 'none';
-                if (loginErrorEl) loginErrorEl.classList.add('hidden');
-                clientes_data = []; tareas_data = []; publicaciones_data = []; paquetes_servicios_data = [];
-                ingresos_data = []; cuentas_cobrar_data = []; cuentas_empresa_data = [];
-                if(tablaClientesBody) tablaClientesBody.innerHTML = ''; 
-                if(tablaTareasBody) tablaTareasBody.innerHTML = '';
-            }
-
-            function showAppScreen() {
-                if (loginScreen) loginScreen.style.display = 'none';
-                if (mainContentWrapper) mainContentWrapper.style.display = 'flex'; 
-                if (sidebarToggleBtnEl) sidebarToggleBtnEl.style.display = 'block'; 
-                
-                const currentHash = window.location.hash.substring(1);
-                const currentSectionId = currentHash.split('?')[0]; // Para manejar #perfil-cliente?id=...
-
-                if (!currentSectionId || !document.getElementById(currentSectionId)) {
-                    if(!pageSections[0].classList.contains('hidden')) { // Si el dashboard ya está visible, no hacer nada
-                         return;
-                    }
-                    showSection('dashboard'); 
-                } else {
-                    // La lógica en fetchInitialData y hashchange se encargará
-                }
-            }
-
-            function clearSessionAndShowLogin() {
-                localStorage.removeItem(SESSION_TOKEN_KEY);
-                showLoginScreen();
-            }
-            
-            async function checkLoginState() {
-                const token = localStorage.getItem(SESSION_TOKEN_KEY);
-                if (token) {
-                    showAppScreen(); // Muestra la app primero
-                    await fetchInitialData(); // Luego carga los datos
-                } else {
-                    showLoginScreen();
-                }
-            }
-            
-            if (loginForm) {
-                loginForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    if (loginErrorEl) loginErrorEl.classList.add('hidden');
-                    const username = document.getElementById('username').value;
-                    const password = document.getElementById('password').value;
-                    const submitButton = loginForm.querySelector('button[type="submit"]');
-                    const originalButtonText = submitButton.innerHTML;
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Verificando...`;
-
-                    const result = await saveDataToSheets('loginUser', { username, password });
-                    
+                } catch (error) {
+                    console.error("Error en submit formCliente:", error);
+                    showToast("Ocurrió un error al guardar.", "error");
+                } finally {
                     submitButton.disabled = false;
                     submitButton.innerHTML = originalButtonText;
+                }
+            });
 
-                    if (result.success && result.data && result.data.token) {
-                        localStorage.setItem(SESSION_TOKEN_KEY, result.data.token);
-                        showAppScreen(); // Muestra la app
-                        await fetchInitialData(); // Carga los datos
+            // Modificar mostrarPerfilDedicado para incluir resumen de credenciales (solo nombres)
+            function mostrarPerfilDedicado(clienteId) {
+                const cliente = clientes_data.find(c => c.id === clienteId);
+                if (!cliente) { showToast("Cliente no encontrado.", "error"); window.location.hash = '#clientes'; return; }
+                nombrePerfilDedicadoEl.textContent = cliente.nombre;
+                perfilDedicadoClinicaEl.textContent = cliente.clinica || '-';
+                perfilDedicadoEmailEl.textContent = cliente.email || '-';
+                perfilDedicadoTelefonoEl.textContent = cliente.telefono || '-';
+                perfilDedicadoPagadoEl.textContent = `$${(parseFloat(cliente.pagado) || 0).toFixed(2)}`;
+                perfilDedicadoNotasEl.textContent = cliente.notas || '-';
+                perfilDedicadoServiciosContratadosUl.innerHTML = '';
+                if (cliente.serviciosContratados && Array.isArray(cliente.serviciosContratados) && cliente.serviciosContratados.length > 0) {
+                    cliente.serviciosContratados.forEach(s => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${s.nombreServicio}</strong> (Cobro: ${s.tipoCobro} - $${s.monto})`;
+                        perfilDedicadoServiciosContratadosUl.appendChild(li);
+                    });
+                } else {
+                    perfilDedicadoServiciosContratadosUl.innerHTML = '<li>No hay paquetes contratados.</li>';
+                }
+                perfilDedicadoDominioWebEl.textContent = cliente.dominioWeb || '-';
+                perfilDedicadoTipoWebEl.textContent = cliente.tipoServicioWeb || '-';
+                perfilDedicadoVencimientoWebEl.textContent = formatLocalDate(cliente.vencimientoWeb);
+                
+                perfilDedicadoConfigRedesDiv.innerHTML = '';
+                let confRedesHTML = ''; 
+                if (cliente.plataformasRedes || cliente.detallesRedes) {
+                    confRedesHTML += `<p><strong>Plataformas:</strong> ${cliente.plataformasRedes || '-'}</p><p><strong>Detalles/Estrategia:</strong><br><span class="whitespace-pre-wrap">${cliente.detallesRedes || '-'}</span></p>`;
+                }
+                perfilDedicadoConfigRedesDiv.innerHTML = confRedesHTML || '<p class="text-xs text-brand-text-secondary dark:text-slate-400">Sin info general de redes.</p>';
+
+                if(perfilDedicadoCredencialesResumenUl){
+                    perfilDedicadoCredencialesResumenUl.innerHTML = '';
+                    if(cliente.credencialesRedes && Array.isArray(cliente.credencialesRedes) && cliente.credencialesRedes.length > 0){
+                        cliente.credencialesRedes.forEach(cred => {
+                            const li = document.createElement('li');
+                            li.textContent = cred.redSocial;
+                            perfilDedicadoCredencialesResumenUl.appendChild(li);
+                        });
                     } else {
-                        if (loginErrorEl) {
-                            loginErrorEl.textContent = result.error || "Usuario o contraseña incorrectos.";
-                            loginErrorEl.classList.remove('hidden');
+                        const li = document.createElement('li');
+                        li.textContent = 'Ninguna';
+                        li.className = 'italic';
+                        perfilDedicadoCredencialesResumenUl.appendChild(li);
+                    }
+                }
+                
+                perfilDedicadoTareasUl.innerHTML = '';
+                const tareasCliente = tareas_data.filter(t => String(t.clienteId) === String(clienteId));
+                if (tareasCliente.length > 0) {
+                    tareasCliente.forEach(t => {
+                        const li = document.createElement('li');
+                        let eCol = 'text-brand-text-secondary dark:text-slate-400';
+                        if(t.estado==='Pendiente')eCol='text-warning dark:text-yellow-400';
+                        else if(t.estado==='En Progreso')eCol='text-info dark:text-blue-400';
+                        else if(t.estado==='Completada')eCol='text-success dark:text-green-400';
+                        li.innerHTML = `<strong>${t.nombre}</strong> - <span class="${eCol} font-semibold">${t.estado}</span> ${t.fechaEntrega ? `(Entrega: ${formatLocalDate(t.fechaEntrega)})` : ''}`;
+                        perfilDedicadoTareasUl.appendChild(li);
+                    });
+                } else {
+                    perfilDedicadoTareasUl.innerHTML = '<li>Sin tareas asociadas.</li>';
+                }
+            }
+            
+            // Modificar abrirModalPaqueteServicio
+            function abrirModalPaqueteServicio(esEdicion = false, paqueteId = null) { // nombre de parámetro cambiado
+                formPaqueteServicio.reset();
+                editandoPaqueteId = null; // Usar la variable global
+                const modalTitle = document.getElementById('modalPaqueteServicioTitle');
+
+                if (esEdicion && paqueteId) {
+                    const paquete = paquetes_servicios_data.find(p => p.id === paqueteId);
+                    if (paquete) {
+                        if(modalTitle) modalTitle.textContent = "Editar Paquete de Servicio";
+                        document.getElementById('nombrePaquete').value = paquete.nombre;
+                        document.getElementById('categoriaPaquete').value = paquete.categoria || '';
+                        document.getElementById('descripcionPaquete').value = paquete.descripcion || '';
+                        document.getElementById('precioSugeridoPaquete').value = paquete.precioSugerido || '';
+                        editandoPaqueteId = paqueteId; // Establecer el ID para edición
+                    } else {
+                        showToast("Paquete no encontrado para editar.", "error");
+                        return; // Salir si el paquete no se encuentra
+                    }
+                } else {
+                    if(modalTitle) modalTitle.textContent = "Añadir Nuevo Paquete";
+                }
+
+                document.getElementById('nombrePaquete').focus();
+                modalPaqueteServicio.classList.add('active');
+                void modalPaqueteServicio.offsetWidth;
+                modalPaqueteServicioContent.style.transform = 'translateY(0)';
+            }
+
+            // Modificar submit de formPaqueteServicio
+            formPaqueteServicio.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitButton = e.submitter;
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = `<span class="spinner-inline" role="status" aria-hidden="true"></span>Guardando...`;
+                try {
+                    const nombre = document.getElementById('nombrePaquete').value.trim();
+                    if (!nombre) {
+                        showToast("Nombre del paquete obligatorio.", "warning");
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                        document.getElementById('nombrePaquete').focus();
+                        return;
+                    }
+                    
+                    const datosPaquete = {
+                        id: editandoPaqueteId, // Se enviará null si es nuevo, o el ID si se edita
+                        nombre: nombre,
+                        categoria: document.getElementById('categoriaPaquete').value.trim(),
+                        descripcion: document.getElementById('descripcionPaquete').value.trim(),
+                        precioSugerido: parseFloat(document.getElementById('precioSugeridoPaquete').value) || null
+                    };
+
+                    const result = await guardarPaqueteServicioEnSheets(datosPaquete); 
+                    if (result && result.success) { // Verificar que result y result.success existan
+                        showToast(editandoPaqueteId ? "Paquete actualizado" : "Paquete añadido", "success");
+                        const paqueteGuardado = result.data; // El backend debería devolver el objeto completo con ID
+                        
+                        if (editandoPaqueteId) {
+                            const index = paquetes_servicios_data.findIndex(p => p.id === editandoPaqueteId);
+                            if (index !== -1) paquetes_servicios_data[index] = paqueteGuardado;
+                            else paquetes_servicios_data.push(paqueteGuardado); // Por si acaso no se encontró pero es una actualización
+                        } else {
+                             paquetes_servicios_data.push(paqueteGuardado); 
                         }
-                        showToast(result.error || "Fallo el inicio de sesión", "error");
+                        renderizarPaquetesServicios();
+                        poblarSelectPaquetesServicio(); 
+                        cerrarModalPaqueteServicio();
+                    } else {
+                         showToast(result.error || "Error al guardar el paquete.", "error");
                     }
-                });
+                } catch (error) {
+                    console.error("Error submit formPaqueteServicio:", error);
+                    showToast("Ocurrió un error.", "error");
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                    editandoPaqueteId = null; // Resetear después de guardar
+                }
+            });
+
+            // Nuevas funciones handler para paquetes
+            function handleEditarPaquete(e) {
+                const paqueteId = e.target.dataset.id;
+                abrirModalPaqueteServicio(true, paqueteId);
             }
 
-            if (btnLogout) {
-                btnLogout.addEventListener('click', async () => {
-                    showLoadingIndicator(true, "Cerrando sesión...");
-                    const token = localStorage.getItem(SESSION_TOKEN_KEY);
-                    if (token) {
-                        await saveDataToSheets('logoutUser', { sessionToken: token }); 
-                    }
-                    clearSessionAndShowLogin();
-                    showLoadingIndicator(false);
-                    showToast("Sesión cerrada", "info");
-                    window.location.hash = ''; // Opcional: Limpiar el hash para evitar que intente cargar una sección protegida
+            async function handleEliminarPaquete(e) {
+                const paqueteId = e.target.dataset.id;
+                const paquete = paquetes_servicios_data.find(p => p.id === paqueteId);
+                if (paquete) {
+                    mostrarModalConfirmacion(
+                        "Confirmar Eliminación",
+                        `¿Seguro que quieres eliminar el paquete "${paquete.nombre}"? Esta acción no se puede deshacer.`,
+                        async () => {
+                            const result = await saveDataToSheets("deletePaqueteServicio", { id: paqueteId });
+                            if (result.success) {
+                                paquetes_servicios_data = paquetes_servicios_data.filter(p => p.id !== paqueteId);
+                                renderizarPaquetesServicios();
+                                poblarSelectPaquetesServicio();
+                                showToast("Paquete eliminado", "success");
+                            } else {
+                                showToast("Error al eliminar el paquete.", "error");
+                            }
+                        },
+                        "Eliminar Paquete",
+                        "bg-danger hover:bg-red-700"
+                    );
+                }
+            }
+             // Renderizar paquetes de servicios (añadir botones)
+             function renderizarPaquetesServicios() {
+                if (!listaPaquetesServiciosEl) return;
+                listaPaquetesServiciosEl.innerHTML = '';
+                if (paquetes_servicios_data.length === 0) {
+                    listaPaquetesServiciosEl.innerHTML = '<p class="text-brand-text-secondary dark:text-slate-400 col-span-full text-center py-4">No hay paquetes de servicios definidos. Añade el primero.</p>';
+                    return;
+                }
+                paquetes_servicios_data.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'content-card-modern flex flex-col justify-between';
+                    card.innerHTML = `
+                        <div>
+                            <h3 class="text-lg font-semibold text-brand-primary dark:text-primary-light mb-2">${p.nombre}</h3>
+                            <p class="text-sm text-brand-text-secondary dark:text-slate-400 mb-1"><strong>Categoría:</strong> ${p.categoria || 'N/A'}</p>
+                            <p class="text-sm text-brand-text-secondary dark:text-slate-400 mb-3">${p.descripcion || 'Sin descripción.'}</p>
+                            ${p.precioSugerido ? `<p class="text-sm font-medium text-brand-text-primary dark:text-slate-200">Precio Sug.: $${parseFloat(p.precioSugerido).toFixed(2)}</p>` : ''}
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-brand-border-light dark:border-slate-700 flex justify-end space-x-2">
+                            <button data-id="${p.id}" class="btn btn-secondary-modern btn-sm editar-paquete-btn">Editar</button>
+                            <button data-id="${p.id}" class="btn btn-sm eliminar-paquete-btn bg-danger/80 hover:bg-danger text-white">Eliminar</button>
+                        </div>
+                    `; // btn-danger es una clase de Tailwind, si la tienes definida
+                    listaPaquetesServiciosEl.appendChild(card);
                 });
+
+                document.querySelectorAll('.editar-paquete-btn').forEach(btn => btn.addEventListener('click', handleEditarPaquete));
+                document.querySelectorAll('.eliminar-paquete-btn').forEach(btn => btn.addEventListener('click', handleEliminarPaquete));
             }
 
+
+            // --------- FIN SECCIÓN MODIFICADA/NUEVA ---------
+
+
+            // AL FINAL DE TODO, DENTRO DEL DOMContentLoaded:
             checkLoginState(); 
 
         });
